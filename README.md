@@ -4,6 +4,12 @@ spaces-to-underscores
 
 <ins>spa</ins>ces-to-under<ins>sco</ins>res
 
+<p align="center" style="color: #00918f">
+    text<br>
+    <span style="color: #00918f">spa</span>ces-to-under<span style="color: #4176cc">sco</span>res
+  <br><br>
+</p>
+
 <p align="center">
     text
   <br><br>
