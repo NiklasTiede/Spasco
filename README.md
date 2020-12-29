@@ -1,13 +1,21 @@
-<center>spasco</center>
+spasco
+=============
+spaces-to-underscores
 
-[comment]: <> (=============)
+<ins>spa</ins>ces-to-under<ins>sco</ins>res
 
-<div contenteditable>
-    <center>
-        <span style="color: #00918f">spa</span>ces-to-under<span style="color: #4176cc">sco</span>res
-    </center>
-</div>
 
+[comment]: <> (<div contenteditable>)
+
+[comment]: <> (    <center>)
+
+[comment]: <> (        <span style="color: #00918f">spa</span>ces-to-under<span style="color: #4176cc">sco</span>res)
+
+[comment]: <> (    </center>)
+
+[comment]: <> (</div>)
+
+<ins>text</ins>
 
 [comment]: <> (<p style="color:#FF0000">spa</p>)
 
