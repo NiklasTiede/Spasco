@@ -1,7 +1,16 @@
-
-spasco
+<center>spasco</center>
 =============
-spaces-to-underscores
+
+<div contenteditable>
+    <center>
+        <span style="color: #00918f">spa</span>ces-to-under<span style="color: #4176cc">sco</span>res
+    </center>
+</div>
+
+
+[comment]: <> (<p style="color:#FF0000">spa</p>)
+
+[comment]: <> (<p style="color:#FF0000">sco</p>)
 
 [comment]: <> (pypi, versions and link to pypi)
 [comment]: <> ([![conda version]&#40;https://img.shields.io/&#41;]&#40;https://anaconda.org/&#41;    # https://shields.io/category/version)
@@ -47,6 +56,7 @@ explaining the most important functionality and more
 - [ ] Checkbox off
 - [x] Checkbox on
 
+## Features
 
 - Item 1
 - Item 2
@@ -130,6 +140,27 @@ name = niklas
 :smirk:
 
 :star:
+
+:exclamation:
+
+:grey_exclamation:
+:grey_question:
+
+
+:whale:
+
+:panda_face:
+
+
+:key:
+
+
+:lock:
+
+:bulb:
+:hammer:
+
+:heavy_check_mark:
 
 
 
