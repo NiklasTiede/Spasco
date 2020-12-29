@@ -4,16 +4,17 @@ spaces-to-underscores
 
 <ins>spa</ins>ces-to-under<ins>sco</ins>res
 
+<p align="center">
+    text
+  <br><br>
+  <img src="http://s.4cdn.org/image/title/105.gif">
+</p>
 
-[comment]: <> (<div contenteditable>)
-
-[comment]: <> (    <center>)
-
-[comment]: <> (        <span style="color: #00918f">spa</span>ces-to-under<span style="color: #4176cc">sco</span>res)
-
-[comment]: <> (    </center>)
-
-[comment]: <> (</div>)
+<div contenteditable>
+    <center>
+        <span style="color: #00918f">spa</span>ces-to-under<span style="color: #4176cc">sco</span>res
+    </center>
+</div>
 
 <ins>text</ins>
 
