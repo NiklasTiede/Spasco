@@ -43,3 +43,99 @@ Tutorial
 
 explaining the most important functionality and more
 
+
+- [ ] Checkbox off
+- [x] Checkbox on
+
+
+- Item 1
+- Item 2
+
+--------
+
+`code`
+
+    4 space indent
+    makes a code block
+
+```
+code fences
+```
+
+
+| Column 1 Heading | Column 2 Heading |
+| ---------------- | ---------------- |
+| Some content     | Other content    |
+
+
+
+# h1
+## h2
+### h3
+#### h4
+##### h5
+###### h6
+
+
+
+*italic*
+_italic_
+
+**bold**
+__bold__
+
+<http://google.com>
+
+[link](http://google.com)
+
+
+
+```python
+import this
+s = "Python syntax highlighting"
+for e in [1,2,3]:
+    print(e)
+```
+
+> Blockquotes are very handy in email to emulate reply text.
+> This line is part of the same quote.
+
+Quote break.
+
+> This is a very long line that will still be quoted properly when it wraps. Oh boy let's keep writing to make sure this is long enough to actually wrap for everyone. Oh, you can *put* **Markdown** into a blockquote.
+
+
+
+
+
+```python
+your_dict = {
+  "firstName": "John",
+  "lastName": "Smith",
+  "age": 25
+}
+```
+
+
+syntax highlighting: yaml, python, html, ini, json
+
+```ini
+[SETTINGS]
+name = niklas
+```
+
+
+
+:bowtie:
+:smirk:
+
+:star:
+
+
+
+
+
+
+
+
+

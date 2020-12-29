@@ -11,18 +11,10 @@ __pycache__/
 *.txt
 *.pdf
 
-# tutorials for help
-*tutorial.py
-src/Matplotlib_Tutorial/
-src/*_tutorial/
-
 # mypy
 .mypy_cache/
 .dmypy.json
 dmypy.json
-
-# mkdocs documentation
-/site
 
 # Unit test / coverage reports
 htmlcov/
@@ -55,12 +47,6 @@ var/
 wheels/
 pip-wheel-metadata/
 share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-
 
 dist
 src/stk.egg-info
