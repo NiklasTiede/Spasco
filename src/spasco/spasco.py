@@ -1,34 +1,40 @@
-"""
-spasco - spaces to underscores
-=============================
-command line tool for replacing spaces within file and/or, directory-names.
+"""spasco - spaces to underscores
+==============================
+command line tool for replacing spaces within files and directories
 """
 # Copyright (c) 2020, Niklas Tiede.
 # All rights reserved. Distributed under the MIT License.
 
 import argparse
+import configparser
+import glob
+import logging
 import os
 import sys
-import logging
-import configparser
-from term_color import Txt, fmt
-
-config = configparser.ConfigParser()
-config.read('./log_settings.cfg')
-
-
 from pprint import pprint
-# TODO: add static typing
+from textwrap import dedent
 from typing import List
 
-logging.basicConfig()
+from term_color import Txt, fmt
 
-__version__ = "0.1.0"
+# set up a settings file and then a logger:
+config = configparser.ConfigParser()
+config.read('settings.ini')
+
+# some information about version, name, author, src
 __title__ = os.path.splitext(__file__)[0]
+__version__ = "0.1.0"
+__author__ = 'Niklas Tiede'
+__author_email__ = 'niklastiede2@gmail.com'
+__src_url__ = 'https://github.com/NiklasTiede/spasco'
 
 # default values for log record are created:
 if not config.read('settings.ini'):
-    config['YOUR-SETTINGS'] = {
+    config['VALUE-SETTINGS'] = {
+        'search_value': "' '",
+        'new_value': '_',
+    }
+    config['LOG-SETTINGS'] = {
         'Logging_turned_on': False,
         'logger_filename': f'{__title__}.log',
         'logger_location': os.environ['HOME'],
@@ -36,13 +42,9 @@ if not config.read('settings.ini'):
     with open('settings.ini', 'w') as f:
         config.write(f)
 
-# config.read('settings.ini')
-
 # set a logger
-logger_path = f"{config.get('YOUR-SETTINGS', 'logger_location')}/{config.get('YOUR-SETTINGS', 'logger_filename')}"
-
+logger_path = f"{config.get('LOG-SETTINGS', 'logger_location')}/{config.get('LOG-SETTINGS', 'logger_filename')}"
 logging.basicConfig(
-    # filename=f'{__title__}.log',
     filename=logger_path,
     level=logging.DEBUG,
     format='%(levelname)s | %(message)s | %(asctime)s'
@@ -55,96 +57,27 @@ if sys.platform != 'linux':
     sys.exit(1)
 
 
+
+
 def main(argv):
-    """ doc. """
+    """ Main program.
+
+    :argument
+        argv: command-line arguments, such as sys.argv (including the program name
+        in argv[0]).
+
+    :return
+        Zero on successful program termination, non-zero otherwise.
+    """
 
     parser = __build_parser()[0]
-    subparser = __build_parser()[1]  # used to print the subparsers help message at the right command
     args = parser.parse_args(argv[1:])
 
-
-    if parser:
-        print('parser is executed')
-    if subparser:
-        print('subparser is executed')
-
-
     pprint(vars(args))
-    logging.info(vars(args))
 
-    # use as error handling, to let people know, that a
-    boom = vars(args).copy()
-    boom.pop('file_or_dir')
-    try:
-        boom.pop('config_parser_no_arg')
-    except IndexError as e:
-        print(e)
-    boom = boom.values()
-
-    print(boom)
-
-    # spasco config  --> return help of config-subparser:
-    if args.config_parser_no_arg and str not in [type(x) for x in boom] and True not in boom:
-        subparser.print_help()
-        return 1
-
-    if args.show_settings:
-        # TODO replace print by logging statements
-        print(f"logging_turned_on: {config.getboolean('YOUR-SETTINGS', 'logging_turned_on')}")
-        print(f"logger_filename: {config.get('YOUR-SETTINGS', 'logger_filename')}")
-        print(f"logger_location: {config.get('YOUR-SETTINGS', 'logger_location')}")
+    if vars(args).get('command', None) == 'config':
+        execute_config(parser, argv)
         return 0
-
-    if args.turn_log_on:
-        print(f'change logging on/off: {args.turn_log_on.capitalize()}')
-        config['YOUR-SETTINGS']['logging_turned_on'] = args.turn_log_on.capitalize()
-        with open('settings.ini', 'w') as fp:
-            config.write(fp)
-        log_state = config.getboolean('YOUR-SETTINGS', 'logging_turned_on')
-        if log_state:
-            print('log recording is activated.')
-        else:
-            print('log recording is deactivated.')
-        return 0
-
-    if args.log_name:
-        config['YOUR-SETTINGS']['logger_filename'] = args.log_name
-        with open('settings.ini', 'w') as fp:
-            config.write(fp)
-        print(f"The new log filename is {config.get('YOUR-SETTINGS', 'logger_filename')}")
-        return 0
-
-    if args.log_location:
-        log_location = args.log_location
-        if '~' in args.log_location:
-            log_location = os.path.expanduser(args.log_location)
-        if not os.path.isdir(log_location):
-            print(f'The given path {args.log_location!r} is not a valid directory!')
-            return 1
-        config['YOUR-SETTINGS']['logger_location'] = log_location
-        with open('settings.ini', 'w') as fp:
-            config.write(fp)
-        print(f"The new log location is {config.get('YOUR-SETTINGS', 'logger_location')}")
-        return 0
-
-    # add error warning:
-    # if args.lines and len(args.files) > 1:
-    #     parser.error('cannot use -l/--lines with more than one file')
-
-    # # use as error handling, to let people know, that a
-    # boom = vars(args).copy()
-    # boom.pop('file_or_dir')
-    # try:
-    #     boom.pop('config')
-    # except IndexError as e:
-    #     print(e)
-    # boom = boom.values()
-    # print(boom)
-
-    if str in boom or True in boom:
-        print('dont mix args with the config args !!')
-        print(boom)
-        print()
 
     files_dirs = []
 
@@ -156,18 +89,19 @@ def main(argv):
     if args.recursive:
         files_dirs = recurse_dirs_and_files()
 
-    if not files_dirs:
-        print('current working dir contaisn renameable files/dirs!')
-        return 1
-
-    # sort paths (longest paths first):
+    # sort paths (longest paths first) so that renaming starts with the deepest nested file/directory:
     files_dirs = [x.split('/') for x in files_dirs]
     sorted_paths = sorted(files_dirs, key=len, reverse=True)
     files_dirs = ['/'.join(path_as_lst) for path_as_lst in sorted_paths]
 
+
+
     # --------------------------------
     # 2: filter each path
-    SEARCH_VALUE = args.search_value if args.search_value else ' '
+    SEARCH_VALUE = args.search_value if args.search_value else config.get('VALUE-SETTINGS', 'search_value')
+    if SEARCH_VALUE == "' '":
+        SEARCH_VALUE = ' '
+
     filtered_paths = []
 
     print(f'selected list before 1st filter: {files_dirs}')
@@ -187,13 +121,15 @@ def main(argv):
 
 
 
-    # import glob
-    # import os
-    # pattern = '*.py'
-    # glob_filter = [name for name in glob.glob(pattern)]
-    # pprint(glob_filter)
-    # base, file = os.path.split('reefneu/sdfcsndc/fefe.py')
-    # print(file)
+    pattern = '*.py'
+    glob_filter = [name for name in glob.glob(pattern)]
+    pprint(glob_filter)
+    base, file = os.path.split('reefneu/sdfcsndc/fefe.py')
+    print(file)
+
+
+    [files_dirs.remove(x) for x in files_dirs.copy() if args.pattern_only and
+                     not is_match(s=os.path.split(x)[1], p=args.pattern_only)]
 
 
 
@@ -229,8 +165,12 @@ def main(argv):
     print(f'selected list after 5th filter (files-only): {files_dirs}')
     filtered_paths = files_dirs
 
+
+
+
+
     # 3: renaming function created
-    NEW_VALUE = args.new_value if args.new_value else '_'
+    NEW_VALUE = args.new_value if args.new_value else config.get('VALUE-SETTINGS', 'new_value')
 
     renamed_paths = path_renaming(path_lst=filtered_paths,
                                   search_value=SEARCH_VALUE,
@@ -243,9 +183,9 @@ def main(argv):
     for before, after in list(zip(filtered_paths, renamed_paths)):
         print(f"{before!r}{' '*(max([len(x) for x in filtered_paths]) - len(before))} --> {after!r}")
 
-    is_proceeding = input('OK to proceed with renaming? [Y/n] ')
+    is_proceeding = input('OK to proceed with renaming? [y/n] ')
 
-    if is_proceeding.lower() == 'y' or is_proceeding.lower() == '':
+    if is_proceeding.lower() == 'y':
         print('renaming will be performed.')
         path_renaming(path_lst=filtered_paths, search_value=SEARCH_VALUE, new_value=NEW_VALUE, renaming=True)
         # 3 files and 2 dirs were converted. message /> save message as log (which files etc.)
@@ -254,12 +194,86 @@ def main(argv):
             if os.path.isdir(path):
                 dircount += 1
             if os.path.isfile(path):
-                filecount =+ 1
+                filecount += 1
         print(f'{filecount} files and {dircount} directories were renamed.')
         return 0
     else:
         print(fmt("command aborted.", textcolor=Txt.greenblue))
         return 1
+
+
+def execute_config(parser, argv):
+    """ subparser triggering from main is refactored in here. """
+    subparser = __build_parser()[1]
+    args = parser.parse_args(argv[1:])
+
+    # use as error handling, to let people know, that a
+    boom = vars(args).copy()
+    boom.pop('file_or_dir')
+    boom = boom.values()
+    print(boom)
+
+    if args.show_settings:
+        current_settings = dedent(f"""
+        VALUE-SETTINGS:
+          search_value: {config.get('VALUE-SETTINGS', 'search_value')}
+          new_value: {config.get('VALUE-SETTINGS', 'new_value')}
+        LOG-SETTINGS:
+          logging_turned_on: {config.getboolean('LOG-SETTINGS', 'logging_turned_on')}
+          logger_filename: {config.get('LOG-SETTINGS', 'logger_filename')}
+          logger_location: {config.get('LOG-SETTINGS', 'logger_location')}
+        """)
+        print(current_settings)
+        return 0
+
+    if args.turn_log_on:
+        print(f'change logging on/off: {args.turn_log_on.capitalize()}')
+        config['LOG-SETTINGS']['logging_turned_on'] = args.turn_log_on.capitalize()
+        with open('settings.ini', 'w') as fp:
+            config.write(fp)
+        log_state = config.getboolean('LOG-SETTINGS', 'logging_turned_on')
+        if log_state:
+            print('log recording is activated.')
+        else:
+            print('log recording is deactivated.')
+        return 0
+
+    if args.log_name:
+        config['LOG-SETTINGS']['logger_filename'] = args.log_name
+        with open('settings.ini', 'w') as fp:
+            config.write(fp)
+        print(f"The new log filename is {config.get('LOG-SETTINGS', 'logger_filename')}")
+        return 0
+
+    if args.log_location:
+        log_location = args.log_location
+        if '~' in args.log_location:
+            log_location = os.path.expanduser(args.log_location)
+        if not os.path.isdir(log_location):
+            print(f'The given path {args.log_location!r} is not a valid directory!')
+            return 1
+        config['LOG-SETTINGS']['logger_location'] = log_location
+        with open('settings.ini', 'w') as fp:
+            config.write(fp)
+        print(f"The new log location is {config.get('LOG-SETTINGS', 'logger_location')}")
+        return 0
+
+    if args.set_search_value:
+        config['VALUE-SETTINGS']['search_value'] = args.set_search_value
+        with open('settings.ini', 'w') as fp:
+            config.write(fp)
+        print(f"The new search-value is {config.get('VALUE-SETTINGS', 'search_value')}")
+        return 0
+
+    if args.set_new_value:
+        config['VALUE-SETTINGS']['new_value'] = args.set_new_value
+        with open('settings.ini', 'w') as fp:
+            config.write(fp)
+        print(f"The new 'new-value' is {config.get('VALUE-SETTINGS', 'new_value')}")
+        return 0
+
+    subparser.print_help()
+    return 1
 
 
 def path_renaming(path_lst, search_value, new_value, renaming=False):
@@ -305,33 +319,33 @@ def recurse_dirs_and_files() -> List[str]:
     return all_files_dirs
 
 
-def is_match(s: str, p: str) -> bool:
-    """
-    wildcard characters (bash) can be used to rename only files/dirs sharing
-      *tern
-    p?ttern
-    """
-    sl = len(s)
-    pl = len(p)
-    dp = [[False for i in range(pl + 1)] for j in range(sl + 1)]
-    s = " " + s
-    p = " " + p
-    dp[0][0] = True
-    for i in range(1, pl + 1):
-        if p[i] == '*':
-            dp[0][i] = dp[0][i - 1]
-    for i in range(1, sl + 1):
-        for j in range(1, pl + 1):
-            if s[i] == p[j] or p[j] == '?':
-                dp[i][j] = dp[i - 1][j - 1]
-            elif p[j] == '*':
-                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
-    return dp[sl][pl]
+# def is_match(s: str, p: str) -> bool:
+#     """
+#     wildcard characters (bash) can be used to rename only files/dirs sharing
+#       *tern
+#     p?ttern
+#     """
+#     sl = len(s)
+#     pl = len(p)
+#     dp = [[False for i in range(pl + 1)] for j in range(sl + 1)]
+#     s = " " + s
+#     p = " " + p
+#     dp[0][0] = True
+#     for i in range(1, pl + 1):
+#         if p[i] == '*':
+#             dp[0][i] = dp[0][i - 1]
+#     for i in range(1, sl + 1):
+#         for j in range(1, pl + 1):
+#             if s[i] == p[j] or p[j] == '?':
+#                 dp[i][j] = dp[i - 1][j - 1]
+#             elif p[j] == '*':
+#                 dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+#     return dp[sl][pl]
 
 
-def is_no_match(s: str, p: str) -> bool:
-    """ reverses the 'is_match'-function to exclude files with certain patterns from renaming. """
-    return not is_match(s, p)
+# def is_no_match(s: str, p: str) -> bool:
+#     """ reverses the 'is_match'-function to exclude files with certain patterns from renaming. """
+#     return not is_match(s, p)
 
 
 # hack for removing the metavar below the subparsers title
@@ -401,20 +415,12 @@ def __build_parser():
         prog=__title__,
         # usage='%(prog)s [options] path',
         add_help=False,
-        description='A renaming tool for replacing whitespaces within file- or directory names by underscores.',
+        description=f'A renaming tool for replacing whitespaces within file- or directory names '
+                    f'by underscores.\nsrc: {__src_url__}',
         epilog='Make your files more computer-friendly :)',
         # formatter_class=lambda prog: argparse.RawTextHelpFormatter(prog, max_help_position=50),
         formatter_class=lambda prog: MyOwnFormatter(prog, max_help_position=80),
     )
-
-    # config_subparser = main_parser.add_subparsers()
-    # config_subparser.add_parser().add_argument()
-    #
-    # main_parser.add_mutually_exclusive_group(required=True).add_argument()
-    # main_parser.add_argument_group().add_argument()
-    # nargs='?',
-    # nargs='+',
-    # nargs='*',
 
     # positional arguments:
     main_parser.add_argument(
@@ -510,58 +516,34 @@ def __build_parser():
     # --------------------------------------
     # structure configuration as sub-main_parser:
     config_subparsers = main_parser.add_subparsers(
-        title='log configuration',
-        dest='config_parser_no_arg',
+        title='log and rename configuration',
+        # dest='config_parser_no_arg',
     )
 
-    # # additional parsers can be easily added here:
-    # config_subparser = configure_parser_config(config_subparsers)
+    config_subparser = add_config_subparser(config_subparsers)
 
-#     return main_parser, config_subparser
-#
-#
-# def configure_parser_config(config_subparsers):
+    return main_parser, config_subparser
 
-    config_subparser = config_subparsers.add_parser(
+
+def add_config_subparser(sub_parsers):
+
+    config_subparser = sub_parsers.add_parser(
         name='config',
-        description='All renaming actions can be recorded within a log file.',
+        # description='All renaming actions can be recorded within a log file.',
+        description='search-value and new-value can be changed. Logging to record all '
+                    'renaming actions as log file can be activated.',
         usage=f'{__title__} config [--show-setting] [-o true/false] [-n [filename]] [-l [pathname]] [-h, --help ]',
         add_help=False,
         formatter_class=lambda prog: argparse.RawDescriptionHelpFormatter(prog, max_help_position=33),
         # formatter_class=argparse.RawDescriptionHelpFormatter,
-        help=f"Sub-command to interact with {__title__}'s logging settings.",
+        help=f"Sub-command to interact with {__title__}'s logging and rename settings.",
     )
-# argparse.RawDescriptionHelpFormatter
+
     config_subparser.add_argument(
         '--show-settings',
         # dest='show_settings',
         action='store_true',
-        help='Returns your current settings for logging.'  # TODO: logger has to be started manually, otherwise the file should not exist!
-    )
-    config_subparser.add_argument(
-        '-o',
-        # '--turn-log-on',
-        nargs='?',
-        metavar='true/false',
-        dest='turn_log_on',
-        choices=['true', 'false'],
-        help="Log record is turned on/off."
-    )
-    config_subparser.add_argument(
-        '-n',
-        # '--log-name',
-        nargs='?',
-        metavar='filename',
-        dest='log_name',
-        help='Set up a new filename for the logger.',
-    )
-    config_subparser.add_argument(
-        '-l',
-        # '--log-location',
-        nargs='?',
-        metavar='pathname',
-        dest='log_location',
-        help=f'Set up a new file location for the logger.',
+        help='Returns your current settings for logging and renaming.'
     )
     config_subparser.add_argument(
         '-h',
@@ -570,7 +552,51 @@ def __build_parser():
         help="Show this help message and exit.",
     )
 
-    return main_parser, config_subparser
+    config_subparser_logging = config_subparser.add_argument_group('log settings')
+    config_subparser_logging.add_argument(
+        '-o',
+        # '--turn-log-on',
+        nargs='?',
+        metavar='true/false',
+        dest='turn_log_on',
+        choices=['true', 'false'],
+        help="Log record is turned on/off."
+    )
+    config_subparser_logging.add_argument(
+        '-f',
+        # '--log-name',
+        nargs='?',
+        metavar='filename',
+        dest='log_name',
+        help='Set up a new filename for the logger.',
+    )
+    config_subparser_logging.add_argument(
+        '-l',
+        # '--log-location',
+        nargs='?',
+        metavar='pathname',
+        dest='log_location',
+        help=f'Set up a new file location for the logger.',
+    )
+
+    config_subparser_renaming = config_subparser.add_argument_group('rename settings')
+    config_subparser_renaming.add_argument(
+        '-s',
+        nargs='?',
+        metavar='search_value',
+        dest='set_search_value',
+        help=f"Set up a new search value.",
+    )
+    config_subparser_renaming.add_argument(
+        '-n',
+        nargs='?',
+        metavar='new_value',
+        dest='set_new_value',
+        help='Set up a new value which will replace the search-value.',
+    )
+
+    config_subparser.set_defaults(command='config')
+    return config_subparser
 
 
 def run_main():

@@ -19,15 +19,8 @@ setuptools.setup(
     url=__src_url__,
     license="MIT",
     package_dir={"": "src"},
-    packages=setuptools.find_packages(where="src"),
-    # install_requires=[                               # production install: python setup.py install or pip install .
-    #     "rdkit",
-    #     "matplotlib",
-    #     "pandas",
-    #     "numpy",
-    #     "pymongo",
-    # ],
-    extras_require={                                 # used by conda to test before packaging
+    packages=setuptools.find_packages(where="src"),  # production install:  pip install .
+    extras_require={
         'dev': [
             'pytest',
             # 'pytest-pep8',
@@ -42,14 +35,14 @@ setuptools.setup(
     #         # 'isort',
     #         # 'sphinx',
     # ],
-    platforms="any",
+    platforms="linux",
     python_requires=">=3.5",
-    entry_points={"console_scripts": ["spasco = spasco.__main__:run_main"]},
+    entry_points={"console_scripts": ["spasco = spasco:run_main"]},
     classifiers=[
-        "Development Status :: 1 - Planning",
-        "Intended Audience :: Education",
-        "Intended Audience :: Science/Research",
-        "License :: OSI Approved :: GNU General Public License (GPL)",
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Developers",
+        "Intended Audience :: End Users/Desktop",
+        "License :: OSI Approved :: MIT License",
         "Operating System :: POSIX :: Linux",
         "Programming Language :: Python",
         "Programming Language :: Python :: 3",
@@ -57,7 +50,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
-        "Topic :: Scientific/Engineering",
-        "Topic :: Scientific/Engineering :: Chemistry",
+        "Topic :: System :: Filesystems",
+        "Topic :: Utilities",
     ],
 )

@@ -1,13 +1,14 @@
-# Colorize your terminal output !
+"""terminal color
+==============
+module for coloring the terminal output
+"""
+# Copyright (c) 2020, Niklas Tiede.
+# All rights reserved. Distributed under the MIT License.
 
-# You can also just copy the code below (Txt and fmt()) 
-# to avoid yet another dependancy in your project !
-
-# terminals other than the linux standard terminal can display colors differently..
 
 class Txt:
-    """ ANSI codes of colors """
-    red = '\033[31m'
+    """ ANSI codes for text colors and formatting (bold, underline). """
+    red: str = '\033[31m'
     orange = '\033[91m'
     yellow = '\033[33m'
     green = '\033[32m'
@@ -20,8 +21,15 @@ class Txt:
 
 
 def fmt(text: str, textcolor: str = '', bolded: bool = False, underlined: bool = False) -> str:
-    """ terminal output of a string can be colorized, bolded or underlined. The
-    colors are stored within the Txt-class. """
+    """ the terminal output can be colorized, bolded or underlined.
+    Colors are stored within the Txt-class.
+    :argument
+      text: string which should be formatted
+      textcolor (optional): a property of the Txt-class determines the color
+
+    :returns
+      string wrapped with ANSI-code.
+    """
 
     bold_str = '\033[1m'
     underline_str = '\033[4m'
@@ -36,7 +44,7 @@ def fmt(text: str, textcolor: str = '', bolded: bool = False, underlined: bool =
     return f"{textcolor}{text}{end}"
 
 
-def show_all_colors(your_string='colorized font'):
+def show_all_colors(your_string: str = 'colorized font') -> str:
     """ print out all forms of formatting. """
 
     rainbow = [
@@ -66,11 +74,15 @@ def show_all_colors(your_string='colorized font'):
     return all_colors
 
 
-# example:
+# # example (How to use when coloring strings):
 # from term_color import Txt, fmt
 # some_text = "This is some text I've written."
 # print(fmt(some_text, textcolor=Txt.green, bolded=True))
 
 
-# print(show_fmt())
+def main():
+    print(show_all_colors())
 
+
+if __name__ == '__main__':
+    main()
