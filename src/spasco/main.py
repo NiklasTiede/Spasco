@@ -6,7 +6,8 @@ command line tool for replacing spaces within files and directories
 # All rights reserved. Distributed under the MIT License.
 
 # TODO: logging
-# TODO: refactoring, in functkionen auslagern
+# TODO: restructure 'usage'
+# TODO: refactoring, in funktionen auslagern
 # TODO: try except if else (error handling)
 # TODO: docstrings
 # TODO: bunte farbe
@@ -268,16 +269,16 @@ def execute_config(parser, argv):
 
 
 def path_renaming(path_lst: List[str], search_value: str, new_value: str, renaming: bool = False) -> List[str]:
-    """ Renaming """
+    """ names if renamed paths are returned and they can be  """
     renamed_paths = []
     for old_path_name in path_lst:
         path_base, file = os.path.split(old_path_name)
         new_name = file.replace(search_value, new_value)
         full_new = os.path.join(path_base, new_name)
-        # full_new = path_base + '/' + new_name
         renamed_paths.append(full_new)
         if renaming:
             os.rename(old_path_name, full_new)
+            logging.info(f"old path: {old_path_name}, new path: {full_new}")
     return renamed_paths
 
 

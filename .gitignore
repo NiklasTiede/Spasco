@@ -42,7 +42,7 @@ pip-wheel-metadata/
 share/python-wheels/
 
 dist
-src/stk.egg-info
+src/spasco.egg-info
 
 **/__pycache__/
 
