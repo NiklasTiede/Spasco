@@ -1,28 +1,11 @@
-spasco
-=============
-spaces-to-underscores
+<h1 align="center"> spasco </h1>
 
-<h1 align="center" style="color: #00918f">  <span style="color: #4176cc">spa</span>ces-to-under<span style="color: #4176cc">sco</span>res</h1>
-
-
-<p align="center" style="color: #00918f">
-    text <br>
-    spasco   <br>
-    <span style="color: #4176cc">spa</span>ces-to-under<span style="color: #4176cc">sco</span>res
-  <br><br>
-</p>
+**spa**ces-to-under**sco**res
 
 <p align="center">
-    text
-  <br><br>
-  <img src="http://s.4cdn.org/image/title/105.gif">
+    <b>spa</b>ces-to-under<b>sco</b>res
 </p>
 
-<div contenteditable>
-    <center>
-        <span style="color: #00918f">spa</span>ces-to-under<span style="color: #4176cc">sco</span>res
-    </center>
-</div>
 
 <ins>text</ins>
 
