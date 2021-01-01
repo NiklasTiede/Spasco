@@ -4,13 +4,6 @@ __pycache__/
 # Jetbrains project files
 .idea/
 
-# jupyter-notebooks
-.ipynb_checkpoints/
-
-# specifically this repo
-*.txt
-*.pdf
-
 # mypy
 .mypy_cache/
 .dmypy.json

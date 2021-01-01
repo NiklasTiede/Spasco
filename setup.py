@@ -37,7 +37,8 @@ setuptools.setup(
     # ],
     platforms="linux",
     python_requires=">=3.5",
-    entry_points={"console_scripts": ["spasco = spasco:run_main"]},
+    # entry_points={"console_scripts": ["spasco = spasco.py:run_main"]},
+    entry_points={"console_scripts": ["spasco = spasco.main:run_main"]},
     classifiers=[
         "Development Status :: 3 - Alpha",
         "Intended Audience :: Developers",

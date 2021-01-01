@@ -1,0 +1,13 @@
+README.md
+setup.py
+src/spasco/__init__.py
+src/spasco/main.py
+src/spasco/spasco.py
+src/spasco/term_color.py
+src/spasco/testingstuff.py
+src/spasco.egg-info/PKG-INFO
+src/spasco.egg-info/SOURCES.txt
+src/spasco.egg-info/dependency_links.txt
+src/spasco.egg-info/entry_points.txt
+src/spasco.egg-info/requires.txt
+src/spasco.egg-info/top_level.txt
