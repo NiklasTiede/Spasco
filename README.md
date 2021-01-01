@@ -1,13 +1,10 @@
 <h1 align="center"> spasco </h1>
 
-**spa**ces-to-under**sco**res
-
 <p align="center">
-    <b>spa</b>ces-to-under<b>sco</b>res
+    <b><ins>spa</ins></b>ces-to-under<b><ins>sco</ins></b>res
 </p>
 
 
-<ins>text</ins>
 
 [comment]: <> (<p style="color:#FF0000">spa</p>)
 
