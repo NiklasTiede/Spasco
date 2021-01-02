@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img  align="center" height="130" src="spasco_heading5.png" />
+  <img  align="center" height="130" src="spasco_logo.png" />
    <h3 align="center">File and Directory Renaming Command Line Tool</h3> 
 <p>
 
