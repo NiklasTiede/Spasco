@@ -31,15 +31,11 @@ to separate arguments and thus their usage when naming files/dirs can be problem
 Example
 -------
 
-If you have files or dirs containing whitespaces in your current working
-directory:
-Your can easily remove the whitespaces by underscores using spasco:
+If you have files or directories containing whitespaces in your current working
+directory you can easily replace them by underscores using spasco:
 
 ```
-$ ls
 ❯ ls
-> ls
->>> ls
 test dir
 test file
 
@@ -54,6 +50,18 @@ OK to proceed with renaming? [y/n] y
 test_dir
 test_file
 ```
+
+
+Table of Contents
+-----------------
+
+Jump to:
+  
+- [Features](#Features)
+- [Installation](#Installation)
+- [Configuration](#Configuration)
+- [How to use Spasco](#How to use Spasco)
+
 
 
 
