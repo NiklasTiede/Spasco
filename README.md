@@ -1,13 +1,13 @@
 [comment]: <> (<h1 align="center"> Spasco </h1>)
 
 
-[comment]: <> (<img align="center" height="150" src="spasco_heading.png" />)
+[comment]: <> (<img align="center" height="150" src="spasco_heading2.png" />)
 
 [comment]: <> (<img title="a title" alt="Alt text" src="spasco_heading.png">)
 [comment]: <> (   <h3 align="center">Cross-platform dictionary and vocabulary building command line tool</h3> )
 
 <p align="center">
-  <img  align="center" height="150" src="spasco_heading.png" />
+  <img  align="center" height="150" src="spasco_heading2.png" />
    <h3 align="center">file and directory renaming command line tool</h3> 
 <p>
 
