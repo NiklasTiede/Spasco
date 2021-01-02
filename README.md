@@ -1,8 +1,7 @@
 <h1 align="center"> Spasco </h1>
 
 <p align="center">
-    <b><ins>spa</ins></b>ces-to-under<b><ins>sco</ins></b>res
-    <br> <br>'a file name.txt' --> 'a_file_name.txt'
+    <ins>spa</ins>ces-to-under<ins>sco</ins>res
 </p>
 
 
@@ -34,40 +33,29 @@ Example
 
 If you have files or dirs containing whitespaces in your current working
 directory:
-
-```
-❯ ls
-a test file
-test dir 1
-test dir 2
-test file 1
-test file 2
-```
-
 Your can easily remove the whitespaces by underscores using spasco:
 
 ```
+$ ls
+❯ ls
+> ls
+>>> ls
+test dir
+test file
+
 ❯ spasco
-5 files/directories can be renamed:
+2 files/directories can be renamed:
 before             after
-'a test file' --> 'a_test_file'
-'test dir 2'  --> 'test_dir_2'
-'test file 1' --> 'test_file_1'
-'test dir 1'  --> 'test_dir_1'
-'test file 2' --> 'test_file_2'
+'test dir'  --> 'test_dir'
+'test file' --> 'test_file'
 OK to proceed with renaming? [y/n] y
+
+❯ ls
+test_dir
+test_file
 ```
 
-text
 
-```
-❯ ls -tree
-a_test_file
-test_dir_1
-test_dir_2
-test_file_1
-test_file_2
-```
 
 
 Features
