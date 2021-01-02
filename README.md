@@ -8,10 +8,8 @@
 
 <p align="center">
   <img  align="center" height="150" src="spasco_heading.png" />
-   <h3 align="center">Cross-platform dictionary and vocabulary building command line tool</h3> 
+   <h3 align="center">file and directory renaming command line tool</h3> 
 <p>
-
-[comment]: <> (![pic]&#40;/spasco_heading.png&#41;)
 
 
 
