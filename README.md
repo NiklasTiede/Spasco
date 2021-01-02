@@ -60,7 +60,7 @@ Jump to:
 - [Features](#Features)
 - [Installation](#Installation)
 - [Configuration](#Configuration)
-- [How to use Spasco](#How to use Spasco)
+- [How to use Spasco](#How-to-use-Spasco)
 
 
 
