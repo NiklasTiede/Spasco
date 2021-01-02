@@ -1,22 +1,19 @@
-<h1 align="center"> spasco </h1>
+<h1 align="center"> Spasco </h1>
 
 <p align="center">
     <b><ins>spa</ins></b>ces-to-under<b><ins>sco</ins></b>res
 </p>
 
+[comment]: <> ([gif converting file names])
 
 
-[comment]: <> (<p style="color:#FF0000">spa</p>)
+[comment]: <> (# https://shields.io/)
 
-[comment]: <> (<p style="color:#FF0000">sco</p>)
-
-[comment]: <> (pypi, versions and link to pypi)
-[comment]: <> ([![conda version]&#40;https://img.shields.io/&#41;]&#40;https://anaconda.org/&#41;    # https://shields.io/category/version)
+[comment]: <> (![PyPI - Python Version]&#40;https://img.shields.io/pypi/pyversions/spasco&#41;)
 
 [comment]: <> ([![platform]&#40;https://img.shields.io/&#41;]&#40;&#41;    # https://shields.io/category/platform-support)
 
 [comment]: <> ([![license]&#40;https://img.shields.io/conda/&#41;]&#40;&#41;    # https://shields.io/category/license)
-
 
 [comment]: <> ([![Travis CI]&#40;https://img.shields.io/&#41;]&#40;https://travis-ci.com/github/numpy/numpy&#41;     # https://shields.io/category/build)
 
@@ -26,104 +23,89 @@
 
 [comment]: <> (![total lines]&#40;https://img.shields.io/&#41;    # https://shields.io/category/size)
 
-[comment]: <> (![repo size]&#40;https://img.shields.io/&#41;    # https://shields.io/category/size)
+This tiny command line tool lets you replace whitespaces occurring in file or 
+directory names by underscores. Whitespaces are a reserved keyword on the terminal
+to separate arguments and thus their usage when naming files/dirs can be problematic.
+
+Example
+-------
+
+If you have files or dirs containing whitespaces in your current working
+directory:
+
+```
+❯ ls
+a test file
+test dir 1
+test dir 2
+test file 1
+test file 2
+```
+
+Your can easily remove the whitespaces by underscores using spasco:
+
+```
+❯ spasco
+5 files/directories can be renamed:
+before             after
+'a test file' --> 'a_test_file'
+'test dir 2'  --> 'test_dir_2'
+'test file 1' --> 'test_file_1'
+'test dir 1'  --> 'test_dir_1'
+'test file 2' --> 'test_file_2'
+OK to proceed with renaming? [y/n] y
+```
+
+text
+
+```
+❯ ls -tree
+a_test_file
+test_dir_1
+test_dir_2
+test_file_1
+test_file_2
+```
+
 
 Features
 --------
 
-spasco let's you replace spaces within a files- or directories name into underscores.
+spasco's renaming operation can be modified. For instance the 
+search-value (whitespaces) and the new-value (underscores) can be
+changed.
 
-[comment]: <> (gif or animation which shows how spasco works)
+
+- search-values other than whitespaces and new-values other than 
+  underscores can be chosen
+- files/dirs within directories can be renamed (recurse into dirs)
+- scope of the renaming action can be limited (patterns with wildcard 
+  characters, filename expansion)
+- a log record of the renaming actions can be recorded
+
 
 Installation
 ------------
 
-spasco supports several python-versions and is easily installed using pip:
+spasco supports several python-versions on linux and is easily 
+installed using pip:
 
 ``` {.sourceCode .bash}
 pip install spasco
 ```
 
-text
 
-Tutorial
+Configuration
 --------
+
+Spasco has a configuration file that allows you to change default 
+behaviour. The file is generated automatically when running spasco
+
+. Currently 
+tokei looks for this file in three different places. The current 
+directory,your home directory, and your configuration directory.
 
 explaining the most important functionality and more
-
-
-- [ ] Checkbox off
-- [x] Checkbox on
-
-## Features
-
-- Item 1
-- Item 2
-
---------
-
-`code`
-
-    4 space indent
-    makes a code block
-
-```
-code fences
-```
-
-
-| Column 1 Heading | Column 2 Heading |
-| ---------------- | ---------------- |
-| Some content     | Other content    |
-
-
-
-# h1
-## h2
-### h3
-#### h4
-##### h5
-###### h6
-
-
-
-*italic*
-_italic_
-
-**bold**
-__bold__
-
-<http://google.com>
-
-[link](http://google.com)
-
-
-
-```python
-import this
-s = "Python syntax highlighting"
-for e in [1,2,3]:
-    print(e)
-```
-
-> Blockquotes are very handy in email to emulate reply text.
-> This line is part of the same quote.
-
-Quote break.
-
-> This is a very long line that will still be quoted properly when it wraps. Oh boy let's keep writing to make sure this is long enough to actually wrap for everyone. Oh, you can *put* **Markdown** into a blockquote.
-
-
-```python
-your_dict = {
-  "firstName": "John",
-  "lastName": "Smith",
-  "age": 25
-}
-```
-
-
-syntax highlighting: yaml, python, html, ini, json
 
 ```ini
 [VALUE-SETTINGS]
@@ -135,6 +117,44 @@ logging_turned_on = False
 logger_filename = spasco.log
 logger_location = /home/niklas
 ```
+
+text
+
+```
+❯ spasco config --help
+usage: spasco config [--show-setting] [-o true/false] [-n [filename]] [-l [pathname]] [-h, --help ]
+
+search-value and new-value can be changed. Logging to record all renaming actions as log file can be activated.
+
+optional arguments:
+  --show-settings    Returns your current settings for logging and renaming.
+  -h, --help         Show this help message and exit.
+
+log settings:
+  -o [true/false]    Log record is turned on/off.
+  -f [filename]      Set up a new filename for the logger.
+  -l [pathname]      Set up a new file location for the logger.
+
+rename settings:
+  -s [search_value]  Set up a new search value.
+  -n [new_value]     Set up a new value which will replace the search-value.
+```
+
+
+How to use Spasco
+----------------
+
+[comment]: <> (https://github.com/XAMPPRocky/tokei)
+
+text
+
+```bash
+ls -la
+ls -tree # using lsdeluxe
+tree # using tree
+```
+
+text
 
 
 ```
@@ -165,57 +185,65 @@ log and rename configuration:
 Make your files more computer-friendly :)
 ```
 
+text
+
+
+
+## Features
+
+- Item 1
+- Item 2
+
+--------
+
+`code`
+
+| Column 1 Heading | Column 2 Heading |
+| ---------------- | ---------------- |
+| Some content     | Other content    |
+
+# h1
+## h2
+### h3
+#### h4
+##### h5
+###### h6
+*italic*
+_italic_
+**bold**
+__bold__
+
+<http://google.com>
+[link](http://google.com)
+
+```python
+import this
+s = "Python syntax highlighting"
+for e in [1,2,3]:
+    print(e)
 ```
-❯ spasco config --help
-usage: spasco config [--show-setting] [-o true/false] [-n [filename]] [-l [pathname]] [-h, --help ]
 
-search-value and new-value can be changed. Logging to record all renaming actions as log file can be activated.
 
-optional arguments:
-  --show-settings    Returns your current settings for logging and renaming.
-  -h, --help         Show this help message and exit.
-
-log settings:
-  -o [true/false]    Log record is turned on/off.
-  -f [filename]      Set up a new filename for the logger.
-  -l [pathname]      Set up a new file location for the logger.
-
-rename settings:
-  -s [search_value]  Set up a new search value.
-  -n [new_value]     Set up a new value which will replace the search-value.
+```python
+your_dict = {
+  "firstName": "John",
+  "lastName": "Smith",
+  "age": 25
+}
 ```
+
+syntax highlighting: yaml, python, html, ini, json
 
 :bowtie:
 :smirk:
-
 :star:
-
 :exclamation:
-
 :grey_exclamation:
 :grey_question:
-
-
 :whale:
-
 :panda_face:
-
-
 :key:
-
-
 :lock:
-
 :bulb:
 :hammer:
-
 :heavy_check_mark:
-
-
-
-
-
-
-
-
-
