@@ -1,5 +1,16 @@
 <h1 align="center"> Spasco </h1>
 
+<img align="center" height="150" src="spasco_heading.png" />
+
+[comment]: <> (<img title="a title" alt="Alt text" src="spasco_heading.png">)
+[comment]: <> (   <h3 align="center">Cross-platform dictionary and vocabulary building command line tool</h3> )
+
+
+
+![pic](/spasco_heading.png)
+
+
+
 <p align="center">
     <ins>spa</ins>ces-to-under<ins>sco</ins>res
 </p>
@@ -55,15 +66,10 @@ test_file
 Table of Contents
 -----------------
 
-Jump to:
-  
 - [Features](#Features)
 - [Installation](#Installation)
 - [Configuration](#Configuration)
 - [How to use Spasco](#How-to-use-Spasco)
-
-
-
 
 
 Features
