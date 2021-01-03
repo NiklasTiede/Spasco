@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img  align="center" height="130" src="spasco_logo.png" />
+  <img  align="center" height="130" src="spasco_heading.png" />
    <h3 align="center">File and Directory Renaming Command Line Tool</h3> 
 <p>
 
@@ -148,7 +148,7 @@ tree # using tree
 text
 
 
-```
+```console
 ❯ spasco --help
 usage: spasco [-s [search_value]] [-n [new_value]] [-p [pattern_only]] [-e [except_pattern]] [-d] [-f] [-r] [-v] [-h]
               [files/directories [files/directories ...]] {config} ...
