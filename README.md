@@ -32,7 +32,7 @@ Example
 If you have files or directories containing whitespaces in your current working
 directory you can easily replace them by underscores using spasco:
 
-```
+```console
 ❯ ls
 test dir
 test file
@@ -111,7 +111,7 @@ logger_location = /home/niklas
 
 text
 
-```
+```console
 ❯ spasco config --help
 usage: spasco config [--show-setting] [-o true/false] [-n [filename]] [-l [pathname]] [-h, --help ]
 
