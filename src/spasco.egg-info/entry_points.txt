@@ -1,3 +1,0 @@
-[console_scripts]
-spasco = spasco.main:run_main
-
