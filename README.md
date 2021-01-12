@@ -20,9 +20,11 @@
 
 [comment]: <> (![total lines]&#40;https://img.shields.io/&#41;    # https://shields.io/category/size)
 
-This tiny command line tool lets you replace whitespaces occurring in file or 
-directory names by underscores. Whitespaces are a reserved keyword on the terminal
-to separate arguments and thus their usage when naming files/dirs can be problematic.
+<p align="justify">
+  This tiny command line tool lets you replace whitespaces occurring in file or 
+  directory names by underscores. Whitespaces are a reserved keyword on the terminal 
+  to separate arguments and thus their usage when naming files/dirs can be problematic.
+</p>
 
 Example
 -------
