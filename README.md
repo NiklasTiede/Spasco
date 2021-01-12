@@ -1,10 +1,8 @@
 
 <p align="center">
-  <img  align="center" height="130" src="spasco_heading.png" />
+  <img  align="center" height="130" src="docs/spasco_heading.png" />
    <h3 align="center">File and Directory Renaming Command Line Tool</h3> 
 <p>
-
-
 
 [comment]: <> (# https://shields.io/)
 
@@ -238,3 +236,5 @@ syntax highlighting: yaml, python, html, ini, json
 :bulb:
 :hammer:
 :heavy_check_mark:
+
+If you found this project useful, consider giving it a :star:

@@ -62,7 +62,7 @@ logger_path = f"{config.get('LOG-SETTINGS', 'logger_location')}/{config.get('LOG
 logging.basicConfig(
     filename=logger_path,
     level=logging.INFO,
-    format='%(levelname)s | %(message)s | %(asctime)s'
+    format='%(levelname)s | %(asctime)s | %(message)s'
 )
 
 
@@ -278,7 +278,7 @@ def path_renaming(path_lst: List[str], search_value: str, new_value: str, renami
         renamed_paths.append(full_new)
         if renaming:
             os.rename(old_path_name, full_new)
-            logging.info(f"old path: {old_path_name}, new path: {full_new}")
+            logging.info(f" working dir: {os.getcwd()!r} | naming: {old_path_name!r} --> {full_new!r}")
     return renamed_paths
 
 
