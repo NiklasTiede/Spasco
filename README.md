@@ -1,4 +1,3 @@
-
 <p align="center">
   <img  align="center" height="130" src="docs/spasco_heading.png" />
    <h3 align="center">File and Directory Renaming Command Line Tool</h3> 
@@ -8,17 +7,17 @@
 
 [comment]: <> (![PyPI - Python Version]&#40;https://img.shields.io/pypi/pyversions/spasco&#41;)
 
-[comment]: <> ([![platform]&#40;https://img.shields.io/&#41;]&#40;&#41;    # https://shields.io/category/platform-support)
+[comment]: <> ([![platform]&#40;https://img.shields.io/&#41;]&#40;&#41; # https://shields.io/category/platform-support)
 
-[comment]: <> ([![license]&#40;https://img.shields.io/conda/&#41;]&#40;&#41;    # https://shields.io/category/license)
+[comment]: <> ([![license]&#40;https://img.shields.io/conda/&#41;]&#40;&#41; # https://shields.io/category/license)
 
-[comment]: <> ([![Travis CI]&#40;https://img.shields.io/&#41;]&#40;https://travis-ci.com/github/numpy/numpy&#41;     # https://shields.io/category/build)
+[comment]: <> ([![Travis CI]&#40;https://img.shields.io/&#41;]&#40;https://travis-ci.com/github/numpy/numpy&#41; # https://shields.io/category/build)
 
-[comment]: <> ([![codecov]&#40;https://img.shields.io/&#41;]&#40;https://codecov.io/&#41;    # https://shields.io/category/coverage)
+[comment]: <> ([![codecov]&#40;https://img.shields.io/&#41;]&#40;https://codecov.io/&#41; # https://shields.io/category/coverage)
 
-[comment]: <> ([![codacy]&#40;https://img.shields.io/&#41;]&#40;&#41;    # https://shields.io/category/analysis)
+[comment]: <> ([![codacy]&#40;https://img.shields.io/&#41;]&#40;&#41; # https://shields.io/category/analysis)
 
-[comment]: <> (![total lines]&#40;https://img.shields.io/&#41;    # https://shields.io/category/size)
+[comment]: <> (![total lines]&#40;https://img.shields.io/&#41; # https://shields.io/category/size)
 
 <p align="justify">
   This tiny command line tool lets you replace whitespaces occurring in file or 
@@ -26,8 +25,9 @@
   to separate arguments and thus their usage when naming files/dirs can be problematic.
 </p>
 
-Example
--------
+## Example
+
+<h1 id="example" ><img src="docs/example.png" width="34px"#> Example</h1>
 
 If you have files or directories containing whitespaces in your current working
 directory you can easily replace them by underscores using spasco:
@@ -49,51 +49,42 @@ test_dir
 test_file
 ```
 
-
-Table of Contents
------------------
+<h1 id="contents" ><img src="docs/contents.png" width="30px"#> Contents</h1>
 
 - [Features](#Features)
 - [Installation](#Installation)
 - [Configuration](#Configuration)
 - [How to use Spasco](#How-to-use-Spasco)
 
+<h1 id="features" ><img src="docs/features.png" width="31px"#> Features</h1>
 
-Features
---------
-
-spasco's renaming operation can be modified. For instance the 
+spasco's renaming operation can be modified. For instance the
 search-value (whitespaces) and the new-value (underscores) can be
 changed.
 
-
-- search-values other than whitespaces and new-values other than 
+- search-values other than whitespaces and new-values other than
   underscores can be chosen
 - files/dirs within directories can be renamed (recurse into dirs)
-- scope of the renaming action can be limited (patterns with wildcard 
+- scope of the renaming action can be limited (patterns with wildcard
   characters, filename expansion)
 - a log record of the renaming actions can be recorded
 
+<h1 id="installation" ><img src="docs/installation.png" width="28px"#> Installation</h1>
 
-Installation
-------------
-
-spasco supports several python-versions on linux and is easily 
+spasco supports several python-versions on linux and is easily
 installed using pip:
 
-``` {.sourceCode .bash}
+```{.sourceCode .bash}
 pip install spasco
 ```
 
+<h1 id="configuration" ><img src="docs/configuration.png" width="34px"#> Configuration</h1>
 
-Configuration
---------
-
-Spasco has a configuration file that allows you to change default 
+Spasco has a configuration file that allows you to change default
 behaviour. The file is generated automatically when running spasco
 
-. Currently 
-tokei looks for this file in three different places. The current 
+. Currently
+tokei looks for this file in three different places. The current
 directory,your home directory, and your configuration directory.
 
 explaining the most important functionality and more
@@ -131,9 +122,7 @@ rename settings:
   -n [new_value]     Set up a new value which will replace the search-value.
 ```
 
-
-How to use Spasco
-----------------
+<h1 id="tutorial" ><img src="docs/tutorial.png" width="27px"#> How to</h1>
 
 [comment]: <> (https://github.com/XAMPPRocky/tokei)
 
@@ -146,7 +135,6 @@ tree # using tree
 ```
 
 text
-
 
 ```console
 ❯ spasco --help
@@ -175,68 +163,5 @@ log and rename configuration:
 
 Make your files more computer-friendly :)
 ```
-
-text
-
-
-
-## Features
-
-- Item 1
-- Item 2
-
---------
-
-`code`
-
-| Column 1 Heading | Column 2 Heading |
-| ---------------- | ---------------- |
-| Some content     | Other content    |
-
-# h1
-## h2
-### h3
-#### h4
-##### h5
-###### h6
-*italic*
-_italic_
-**bold**
-__bold__
-
-<http://google.com>
-[link](http://google.com)
-
-```python
-import this
-s = "Python syntax highlighting"
-for e in [1,2,3]:
-    print(e)
-```
-
-
-```python
-your_dict = {
-  "firstName": "John",
-  "lastName": "Smith",
-  "age": 25
-}
-```
-
-syntax highlighting: yaml, python, html, ini, json
-
-:bowtie:
-:smirk:
-:star:
-:exclamation:
-:grey_exclamation:
-:grey_question:
-:whale:
-:panda_face:
-:key:
-:lock:
-:bulb:
-:hammer:
-:heavy_check_mark:
 
 If you found this project useful, consider giving it a :star:
