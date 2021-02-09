@@ -25,8 +25,6 @@
   to separate arguments and thus their usage when naming files/dirs can be problematic.
 </p>
 
-## Example
-
 <h1 id="example" ><img src="docs/example.png" width="34px"#> Example</h1>
 
 If you have files or directories containing whitespaces in your current working
@@ -54,7 +52,7 @@ test_file
 - [Features](#Features)
 - [Installation](#Installation)
 - [Configuration](#Configuration)
-- [How to use Spasco](#How-to-use-Spasco)
+- [How to use Spasco](#how-to-use-spasco)
 
 <h1 id="features" ><img src="docs/features.png" width="31px"#> Features</h1>
 
@@ -122,7 +120,7 @@ rename settings:
   -n [new_value]     Set up a new value which will replace the search-value.
 ```
 
-<h1 id="tutorial" ><img src="docs/tutorial.png" width="27px"#> How to</h1>
+<h1 id="how-to-use-spasco" ><img src="docs/tutorial.png" width="27px"#> How to use Spasco</h1>
 
 [comment]: <> (https://github.com/XAMPPRocky/tokei)
 
