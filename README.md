@@ -28,7 +28,7 @@
 <h1 id="example" ><img src="docs/example.png" width="34px"#> Example</h1>
 
 If you have files or directories containing whitespaces in your current working
-directory you can easily replace them by underscores using spasco:
+directory you can easily replace them by underscores using `spasco`:
 
 ```console
 ❯ ls
@@ -56,11 +56,11 @@ test_file
 
 <h1 id="features" ><img src="docs/features.png" width="31px"#> Features</h1>
 
-spasco's renaming operation can be modified. For instance the
+Spasco's renaming operation can be modified. For example, the
 search-value (whitespaces) and the new-value (underscores) can be
 changed.
 
-- search-values other than whitespaces and new-values other than
+- search-values other than white spaces and new-values other than
   underscores can be chosen
 - files/dirs within directories can be renamed (recurse into dirs)
 - scope of the renaming action can be limited (patterns with wildcard
@@ -77,14 +77,8 @@ pip install git+https://github.com/NiklasTiede/Spasco
 
 <h1 id="configuration" ><img src="docs/configuration.png" width="34px"#> Configuration</h1>
 
-Spasco has a configuration file that allows you to change default
-behaviour. The file is generated automatically when running spasco
-
-. Currently
-tokei looks for this file in three different places. The current
-directory,your home directory, and your configuration directory.
-
-explaining the most important functionality and more
+Spasco has a configuration file that allows you to change its default
+behaviour. The file is generated automatically when running spasco.
 
 ```ini
 [VALUE-SETTINGS]
@@ -97,7 +91,7 @@ logger_filename = spasco.log
 logger_location = /home/niklas
 ```
 
-text
+Configuration is done through the command line interface. logging can be turned on and off and you can pick a new search-/new-value persistently.
 
 ```console
 ❯ spasco config --help
@@ -123,15 +117,7 @@ rename settings:
 
 [comment]: <> (https://github.com/XAMPPRocky/tokei)
 
-text
-
-```bash
-ls -la
-ls -tree # using lsdeluxe
-tree # using tree
-```
-
-text
+The built-in usage help gives you all the information you need.
 
 ```console
 ❯ spasco --help
@@ -139,7 +125,7 @@ usage: spasco [-s [search_value]] [-n [new_value]] [-p [pattern_only]] [-e [exce
               [files/directories [files/directories ...]] {config} ...
 
 A renaming tool for replacing whitespaces within file- or directory names by underscores.
-src: https://github.com/NiklasTiede/spasco
+src: https://github.com/NiklasTiede/Spasco
 
 positional arguments:
   files/directories    Select files/dirs to be renamed. Default: current directory is listed.
@@ -160,5 +146,15 @@ log and rename configuration:
 
 Make your files more computer-friendly :)
 ```
+
+:exclamation: The How-to section will get more examples in the future
+
+:exclamation: Can be also downloaded from PyPI soon
+
+<!-- For converting all dash symbols just type:
+
+```bash
+spasco -s '-'
+``` -->
 
 If you found this project useful, consider giving it a :star:

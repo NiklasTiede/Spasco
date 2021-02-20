@@ -39,7 +39,7 @@ __title__ = 'spasco'
 __version__ = "0.1.0"
 __author__ = 'Niklas Tiede'
 __author_email__ = 'niklastiede2@gmail.com'
-__src_url__ = 'https://github.com/NiklasTiede/spasco'
+__src_url__ = 'https://github.com/NiklasTiede/Spasco'
 
 
 # default values for log record are created:

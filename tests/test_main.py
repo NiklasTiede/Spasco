@@ -1,14 +1,10 @@
-import spasco.spasco2 as sp2
 
-import pytest
-pytest.fixture()
+from src.spasco.main import main
 
 
-def test_main():
-    """Dummy test in order to make conda build pass"""
+# def test_version(capsys):
+#     main(["--help"])
+#     captured = capsys.readouterr()
+#     result = captured.out
+#     assert result == 'spasco 0.1.0'
 
-    sp2.hello_name('Niklas')
-    assert sp2.hello_name('Niklas') == 'Hello, Niklas!'
-    # out, err = capsys.readouterr()
-    # assert out == 'Hello, Niklas!'
-    # assert err == ''
