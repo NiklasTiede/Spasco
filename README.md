@@ -69,11 +69,10 @@ changed.
 
 <h1 id="installation" ><img src="docs/installation.png" width="28px"#> Installation</h1>
 
-spasco supports several python-versions on linux and is easily
-installed using pip:
+Spasco is currently developed on Python 3.7 and can be easily downloaded, built and installed via `pip`.
 
-```{.sourceCode .bash}
-pip install spasco
+```
+pip install git+https://github.com/NiklasTiede/Spasco
 ```
 
 <h1 id="configuration" ><img src="docs/configuration.png" width="34px"#> Configuration</h1>
