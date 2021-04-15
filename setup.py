@@ -5,8 +5,8 @@ import setuptools
 from src.spasco import __src_url__, __title__, __version__
 
 setuptools.setup(
-    name="spasco",
-    version="1.0.0",
+    name=__title__,
+    version=__version__,
     author="Niklas Tiede",
     author_email="niklastiede2@gmail.com",
     description="command line tool for replacing spaces of file-/dir-names by underscores",
