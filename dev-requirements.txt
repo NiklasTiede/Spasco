@@ -1,9 +1,0 @@
-mccabe==0.6.1
-typing-extensions==3.7.4.3
-black==20.8b1
-isort==5.6.4
-pylint==2.6.0
-pytest==6.2.1
-mypy-extensions==0.4.3
--e git+https://github.com/NiklasTiede/spasco.git@1b119959dc5c5d77ff60a52f13dca6e29a83f217#egg=spasco
-yapf==0.30.0

@@ -2,42 +2,27 @@ import pathlib
 
 import setuptools
 
-__version__ = "0.1.0"
-__author__ = 'Niklas Tiede'
-__author_email__ = 'niklastiede2@gmail.com'
-__src_url__ = 'https://github.com/NiklasTiede/spasco'
-
+from src.spasco import __src_url__, __title__, __version__
 
 setuptools.setup(
     name="spasco",
-    version=__version__,
-    author=__author__,
-    author_email=__author_email__,
+    version="1.0.0",
+    author="Niklas Tiede",
+    author_email="niklastiede2@gmail.com",
     description="command line tool for replacing spaces of file-/dir-names by underscores",
     long_description=pathlib.Path("README.md").read_text(encoding="utf-8"),
     long_description_content_type="text/markdown",
     url=__src_url__,
     license="MIT",
     package_dir={"": "src"},
-    packages=setuptools.find_packages(where="src"),  # production install:  pip install .
+    packages=setuptools.find_packages(where="src"),
     extras_require={
-        'dev': [
-            'pytest',
-            # 'pytest-pep8',
-            # 'pytest-cov',
+        "dev": [
+            "pytest",
         ],
     },
-    # extras_require=[
-    #         'pytest',
-    #         # 'pytest-pep8',
-    #         # 'pytest-cov',
-    #         # 'yapf',
-    #         # 'isort',
-    #         # 'sphinx',
-    # ],
     platforms="linux",
     python_requires=">=3.5",
-    # entry_points={"console_scripts": ["spasco = spasco.py:run_main"]},
     entry_points={"console_scripts": ["spasco = spasco.main:run_main"]},
     classifiers=[
         "Development Status :: 3 - Alpha",

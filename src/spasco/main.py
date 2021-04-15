@@ -5,18 +5,6 @@ command line tool for replacing spaces within files and directories
 # Copyright (c) 2020, Niklas Tiede.
 # All rights reserved. Distributed under the MIT License.
 
-# TODO: logging
-# TODO: restructure 'usage'
-# TODO: refactoring, in funktionen auslagern
-# TODO: try except if else (error handling)
-# TODO: docstrings
-# TODO: bunte farbe
-# TODO: readme datei, gifs
-# TODO: pytest
-# TODO: CI
-# TODO: pypi hochladen
-
-
 import argparse
 import configparser
 import logging
@@ -24,8 +12,12 @@ import os
 import sys
 from typing import List
 import fnmatch
+from pprint import pprint
 
-from .term_color import Txt, fmt
+from spasco.term_color import Txt, fmt
+
+
+
 
 base, file = os.path.split(__file__)
 settings_file = os.path.join(base, 'settings.ini')
@@ -34,12 +26,8 @@ settings_file = os.path.join(base, 'settings.ini')
 config = configparser.ConfigParser()
 config.read(settings_file)
 
-# some information about version, name, author, src
-__title__ = 'spasco'
-__version__ = "0.1.0"
-__author__ = 'Niklas Tiede'
-__author_email__ = 'niklastiede2@gmail.com'
-__src_url__ = 'https://github.com/NiklasTiede/Spasco'
+
+from spasco import __title__, __version__, __src_url__
 
 
 # default values for log record are created:
@@ -49,12 +37,16 @@ if not config.read(settings_file):
         'new_value': '_',
     }
     config['LOG-SETTINGS'] = {
-        'Logging_turned_on': False,
+        'Logging_turned_on': "False",
         'logger_filename': f'{__title__}.log',
         'logger_location': os.environ['HOME'],
     }
     with open(settings_file, 'w') as f:
         config.write(f)
+
+
+
+
 
 # set a logger
 # TODO: log each renamed path
@@ -66,9 +58,16 @@ logging.basicConfig(
 )
 
 
+
+
 if sys.platform != 'linux':
     print(f"{__title__!r} is currently not optimized for Windows / OS X")
     sys.exit(1)
+
+
+
+
+
 
 
 def main(argv):
@@ -82,14 +81,22 @@ def main(argv):
         Zero on successful program termination, non-zero otherwise.
     """
 
-    parser = __build_parser()[0]
-    args = parser.parse_args(argv[1:])
+    # parser = __build_parser()[0]
+    # args = parser.parse_args(argv[1:])
+
+    main_parser, config_subparser = __build_parser()
+
+    argv = argv[1:]
+    args = main_parser.parse_args(argv)
+
+
 
     logging.debug(vars(args))
 
+
     # triggering config subparser
     if vars(args).get('command', None) == 'config':
-        execute_config(parser, argv)
+        execute_config(config_subparser, argv)
         return 0
 
     #######################
@@ -97,6 +104,9 @@ def main(argv):
     #######################
 
     files_dirs = []
+
+    if isinstance(args.file_or_dir, str):
+        args.file_or_dir = [args.file_or_dir]
 
     if args.file_or_dir and not args.recursive:
         files_dirs.extend(args.file_or_dir)
@@ -120,7 +130,6 @@ def main(argv):
     filtered_paths = []
     logging.debug(f'selected list before 1st filter: {files_dirs}')
     all_selected_files_dirs = files_dirs.copy()
-    logging.debug(f'number of all files/dirs: {len(all_selected_files_dirs)}')
     logging.debug(f'number of all files/dirs: {len(all_selected_files_dirs)}')
 
     # ------ search-value filter ------
@@ -183,9 +192,9 @@ def main(argv):
     is_proceeding = input('OK to proceed with renaming? [y/n] ')
 
     if is_proceeding.lower() == 'y':
-        path_renaming(path_lst=filtered_paths, search_value=SEARCH_VALUE, new_value=NEW_VALUE, renaming=True)
+        new_pathnames = path_renaming(path_lst=filtered_paths, search_value=SEARCH_VALUE, new_value=NEW_VALUE, renaming=True)
         filecount, dircount = 0, 0
-        for path in filtered_paths:
+        for path in new_pathnames:
             if os.path.isdir(path):
                 dircount += 1
             if os.path.isfile(path):
@@ -197,16 +206,10 @@ def main(argv):
         return 1
 
 
-def execute_config(parser, argv):
+def execute_config(config_subparser, argv):
     """ subparser triggering from main is refactored in here. """
-    subparser = __build_parser()[1]
-    args = parser.parse_args(argv[1:])
 
-    # # use as error handling, to let people know, that a
-    # boom = vars(args).copy()
-    # boom.pop('file_or_dir')
-    # boom = boom.values()
-    # print(boom)
+    args = config_subparser.parse_args(argv[1:])
 
     if args.show_settings:
         print(f'{fmt("value settings:", Txt.greenblue)}')
@@ -264,7 +267,7 @@ def execute_config(parser, argv):
         print(f"The new 'new-value' is {config.get('VALUE-SETTINGS', 'new_value')}")
         return 0
 
-    subparser.print_help()
+    config_subparser.print_help()
     return 1
 
 
@@ -350,23 +353,23 @@ def __build_parser():
     main_parser = argparse.ArgumentParser(
         prog=__title__,
         add_help=False,
-        description=f'A renaming tool for replacing whitespaces within file- or directory names '
-                    f'by underscores.\nsrc: {__src_url__}',
+        description=f'A renaming tool which replaces whitespaces within file- or directory names '
+                    f'by underscores. By default all files/dirs within the current working ' 
+                    f'directory are renamed.\n\nsrc: {__src_url__}',
         epilog='Make your files more computer-friendly :)',
         formatter_class=lambda prog: MyOwnFormatter(prog, max_help_position=80),
     )
 
-    # positional arguments:
-    main_parser.add_argument(
-        'file_or_dir',
-        metavar='files/directories',
-        action='store',
-        nargs='*',
-        default=os.listdir(),
-        help='Select files/dirs to be renamed. Default: current directory is listed.'
-    )
-
     # optional arguments:
+    main_parser.add_argument(
+        "-t",
+        dest='file_or_dir',
+        metavar='file_or_dir',
+        action='store',
+        nargs='?',
+        default=os.listdir(),
+        help='Select a single file or directory for renaming.'
+    )
     main_parser.add_argument(
         '-s',
         dest='search_value',
@@ -381,7 +384,7 @@ def __build_parser():
         nargs='?',
         action='store',
         metavar='new_value',
-        help='substitutes the search-value for custom characters/patterns other than underscores.'
+        help='Substitutes the search-value for custom characters/patterns other than underscores.'
     )
     main_parser.add_argument(
         '-p',
