@@ -222,7 +222,7 @@ def main(argv):
                 dircount += 1
             if os.path.isfile(path):
                 filecount += 1
-        print(f'{filecount} files and {dircount} directories were renamed.')
+        print(f'All done! {filecount} files and {dircount} directories were renamed ✨ 🍰 ✨.')
         return 0
     else:
         print(fmt("command aborted.", textcolor=Txt.greenblue))
