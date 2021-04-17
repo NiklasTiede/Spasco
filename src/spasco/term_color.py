@@ -48,16 +48,16 @@ def show_all_colors(your_string: str = 'colorized font') -> str:
     """ print out all forms of formatting. """
 
     rainbow = [
-        'pink', 
-        'red', 
+        'pink',
+        'red',
         'orange',
-        'yellow', 
-        'green', 
-        'greenblue', 
+        'yellow',
+        'green',
+        'greenblue',
         'blue',
         'purple',
-        'black', 
-        'white'
+        'black',
+        'white',
     ]
 
     all_colors = ''
@@ -67,8 +67,12 @@ def show_all_colors(your_string: str = 'colorized font') -> str:
         colorname = fmt(text=colorname, textcolor=textcolor)
         normal_color = fmt(text=your_string, textcolor=textcolor)
         bolded_color = fmt(text=your_string, textcolor=textcolor, bolded=True)
-        underlined_color = fmt(text=your_string, textcolor=textcolor, underlined=True) 
-        bol_undl_color = fmt(text=your_string, textcolor=textcolor, bolded=True, underlined=True)
+        underlined_color = fmt(
+            text=your_string, textcolor=textcolor, underlined=True,
+        )
+        bol_undl_color = fmt(
+            text=your_string, textcolor=textcolor, bolded=True, underlined=True,
+        )
         line = f"{colorname}:  {normal_color}  {bolded_color}  {underlined_color}  {bol_undl_color}\n"
         all_colors += line
     return all_colors
