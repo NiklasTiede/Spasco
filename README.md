@@ -1,6 +1,6 @@
 <p align="center">
   <img  align="center" height="130" src="docs/spasco_heading.png" />
-   <h3 align="center">File and Directory Renaming Command Line Tool</h3> 
+   <h3 align="center">File and Directory Renaming Command Line Tool</h3>
 <p>
 
 [comment]: <> (# https://shields.io/)
@@ -20,8 +20,8 @@
 [comment]: <> (![total lines]&#40;https://img.shields.io/&#41; # https://shields.io/category/size)
 
 <p align="justify">
-  This tiny command line tool lets you replace whitespaces occurring in file or 
-  directory names by underscores. Whitespaces are a reserved keyword on the terminal 
+  This tiny command line tool lets you replace whitespaces occurring in file or
+  directory names by underscores. Whitespaces are a reserved keyword on the terminal
   to separate arguments and thus their usage when naming files/dirs can be problematic.
 </p>
 
