@@ -2,7 +2,9 @@ import pathlib
 
 import setuptools
 
-from src.spasco import __src_url__, __title__, __version__
+from src.spasco import __src_url__
+from src.spasco import __title__
+from src.spasco import __version__
 
 setuptools.setup(
     name=__title__,
