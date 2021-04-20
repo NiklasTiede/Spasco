@@ -16,12 +16,9 @@ from argparse import HelpFormatter
 from pprint import pprint
 from typing import List
 
-from spasco import __src_url__
-from spasco import __title__
-from spasco import __version__
+from spasco import __src_url__, __title__, __version__
 from spasco.term_color import fmt
 from spasco.term_color import Txt
-
 
 base, file = os.path.split(__file__)
 settings_file = os.path.join(base, 'settings.ini')
@@ -77,10 +74,17 @@ def main(argv):
 
     main_parser, config_subparser = __build_parser()
 
-    argv = argv[1:]
-    args = main_parser.parse_args(argv)
+    print(argv)
 
-    logging.debug(vars(args))
+    argv = argv[1:]
+
+    print(argv)
+    
+    args = main_parser.parse_args(args=argv)
+
+    print(vars(args))
+
+    # logging.debug(vars(args))
 
     # triggering config subparser
     if vars(args).get('command', None) == 'config':

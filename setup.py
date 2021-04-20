@@ -2,9 +2,9 @@ import pathlib
 
 import setuptools
 
-from src.spasco import __src_url__
-from src.spasco import __title__
-from src.spasco import __version__
+from spasco import __src_url__
+from spasco import __title__
+from spasco import __version__
 
 setuptools.setup(
     name=__title__,
@@ -16,8 +16,7 @@ setuptools.setup(
     long_description_content_type="text/markdown",
     url=__src_url__,
     license="MIT",
-    package_dir={"": "src"},
-    packages=setuptools.find_packages(where="src"),
+    packages=setuptools.find_packages(),
     extras_require={
         "dev": [
             "pytest",
