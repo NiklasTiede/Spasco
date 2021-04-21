@@ -405,7 +405,7 @@ def __build_parser():
         description=f'A renaming tool which replaces whitespaces within file- or directory names '
                     f'by underscores. By default all files/dirs within the current working '
                     f'directory are renamed.\n\nsrc: {__src_url__}',
-        epilog='Make your files more computer-friendly :)',
+        epilog='Make your files more computer-friendly 😄',
         formatter_class=lambda prog: MyOwnFormatter(
             prog, max_help_position=80,
         ),
