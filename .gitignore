@@ -1,8 +1,8 @@
-command.md
+
 # bytecode
 __pycache__/
 
-# Jetbrains project files
+# IDE/editor files
 .idea/
 .vscode
 
@@ -47,6 +47,7 @@ src/spasco.egg-info
 **/.cache
 *.ipynb_checkpoints
 **/.vscode
+*.egg-info/
 
 # Some folders get created by tests.
 **/tests_output
