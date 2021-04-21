@@ -74,15 +74,9 @@ def main(argv):
 
     main_parser, config_subparser = __build_parser()
 
-    print(argv)
-
     argv = argv[1:]
-
-    print(argv)
     
     args = main_parser.parse_args(args=argv)
-
-    print(vars(args))
 
     # logging.debug(vars(args))
 
@@ -129,7 +123,7 @@ def main(argv):
     # ------ search-value filter ------
     [
         files_dirs.remove(x)
-        for x in all_selected_files_dirs if not SEARCH_VALUE in x
+        for x in all_selected_files_dirs if not SEARCH_VALUE in x.split('/')[-1]
     ]
     if not files_dirs:
         print(
@@ -203,28 +197,37 @@ def main(argv):
         new_value=NEW_VALUE,
     )
 
-    print(f'{len(filtered_paths)} files/directories can be renamed:')
+    # print(f'{len(filtered_paths)} files/directories can be renamed:')
+    # print(f"before {' ' * (max([len(x) for x in filtered_paths]) - len('before') + 6)} after",)
+    # for before, after in list(zip(filtered_paths, renamed_paths)):
+    #     print(f"{before!r}{' ' * (max([len(x) for x in filtered_paths]) - len(before))} --> {after!r}",)
 
-    print(
-        f"before {' ' * (max([len(x) for x in filtered_paths]) - len('before') + 6)} after",
-    )
 
-    for before, after in list(zip(filtered_paths, renamed_paths)):
-        print(
-            f"{before!r}{' ' * (max([len(x) for x in filtered_paths]) - len(before))} --> {after!r}",
-        )
+    if args.immediately:
+        is_proceeding = 'y'
+    else:
+        print(f'{len(filtered_paths)} files/directories can be renamed:')
+        print(f"before {' ' * (max([len(x) for x in filtered_paths]) - len('before') + 6)} after",)
+        for before, after in list(zip(filtered_paths, renamed_paths)):
+            print(f"{before!r}{' ' * (max([len(x) for x in filtered_paths]) - len(before))} --> {after!r}",)
 
-    is_proceeding = input('OK to proceed with renaming? [y/n] ')
+        is_proceeding = input('OK to proceed with renaming? [y/n] ')
+
 
     if is_proceeding.lower() == 'y':
         new_pathnames = path_renaming(
             path_lst=filtered_paths, search_value=SEARCH_VALUE, new_value=NEW_VALUE, renaming=True,
         )
         filecount, dircount = 0, 0
+
         for path in new_pathnames:
+            # fullpath = os.getcwd() + '/' + path
+            # print(fullpath)
             if os.path.isdir(path):
+                # print(fullpath)
                 dircount += 1
             if os.path.isfile(path):
+                # print(fullpath)
                 filecount += 1
         print(f'All done! {filecount} files and {dircount} directories were renamed ✨ 🍰 ✨.')
         return 0
@@ -320,10 +323,11 @@ def path_renaming(path_lst: List[str], search_value: str, new_value: str, renami
     """ names if renamed paths are returned and they can be  """
     renamed_paths = []
     for old_path_name in path_lst:
+        resulting_name = old_path_name.replace(search_value, new_value)
+        renamed_paths.append(resulting_name)
         path_base, file = os.path.split(old_path_name)
         new_name = file.replace(search_value, new_value)
         full_new = os.path.join(path_base, new_name)
-        renamed_paths.append(full_new)
         if renaming:
             os.rename(old_path_name, full_new)
             logging.info(
@@ -466,6 +470,12 @@ def __build_parser():
         '--recursive',
         action='store_true',
         help='Recurse into directories.',
+    )
+    main_parser.add_argument(
+        '-i',
+        '--immediately',
+        action='store_true',
+        help='Skip security question and execute immediately.',
     )
     main_parser.add_argument(
         '-v',
