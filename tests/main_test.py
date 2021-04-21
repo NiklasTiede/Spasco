@@ -1,12 +1,17 @@
+
+# run tests with 'pytest -s -vvv'
+# if a test fails: a folder named 'renaming_tests' might be left as artifact
+
+
 import os
 import shutil
 import pathlib
 import glob
 import time
 from typing import List
-from spasco.main import main
-
 from pprint import pprint
+
+from spasco.main import main
 
 
 # directories/files which have to be generated for every test:
@@ -56,17 +61,17 @@ def listdir_recursively():
 
 
 #######################################################################
-# Test 1: no flag (-i has to be used, to skip the safety question)
+# Test 1: no flags (-i has to be used, to skip the safety question)
 
 expected_filesdirs_without_flags = [
     'file-2.js',
-    'file_1.py',
+    'file_1.py',             # renamed
     'folder-2',
     'folder-2/file 21.py',
     'folder-2/file-22.js',
     'folder-2/folder21',
     'folder-2/folder22',
-    'folder_1',
+    'folder_1',              # renamed
     'folder_1/file 11.py',
     'folder_1/file-12.js',
     'folder_1/folder 12',
@@ -102,17 +107,17 @@ def test_renaming_without_flags(capsys):
 
 expected_files_dirs_with_recursive_flag = [
     'file-2.js',
-    'file_1.py',
+    'file_1.py',             # renamed
     'folder-2',
     'folder-2/file-22.js',
-    'folder-2/file_21.py',
+    'folder-2/file_21.py',   # renamed
     'folder-2/folder21',
     'folder-2/folder22',
-    'folder_1',
+    'folder_1',              # renamed
     'folder_1/file-12.js',
-    'folder_1/file_11.py',
+    'folder_1/file_11.py',   # renamed
     'folder_1/folder-11',
-    'folder_1/folder_12'
+    'folder_1/folder_12'     # renamed
     ]
 
 def test_renaming_with_recursive_flag(capsys):
@@ -136,6 +141,48 @@ def test_renaming_with_recursive_flag(capsys):
     os.chdir(tests_folder)
     if os.path.exists(test_location):
         shutil.rmtree(test_location)
+
+###################################################################
+# Test 3: files-only (-f) flag
+
+expected_files_dirs_with_filesonly_flag = [
+    'file-2.js',
+    'file_1.py',            # renamed
+    'folder 1',
+    'folder 1/file 11.py',
+    'folder 1/file-12.js',
+    'folder 1/folder 12',
+    'folder 1/folder-11',
+    'folder-2',
+    'folder-2/file 21.py',
+    'folder-2/file-22.js',
+    'folder-2/folder21',
+    'folder-2/folder22'
+    ]
+
+
+def test_renaming_with_filesonly_flag(capsys):
+    """ Tests if the files-only flag is functional.
+    """
+    # generate folder/files for renaming test
+    create_test_files_and_dirs()
+
+    # renaming operation
+    main(['dummy', '-i', '-f'])
+
+    resulting_filesdirs = listdir_recursively()
+    assert resulting_filesdirs == expected_files_dirs_with_filesonly_flag
+
+    # compare the generated output message of spasco to the expected message:
+    captured_statement = capsys.readouterr().out
+    expected_statement = "All done! 1 files and 0 directories were renamed ✨ 🍰 ✨.\n"
+    assert captured_statement == expected_statement
+
+    # remove all generated folders/files:
+    os.chdir(tests_folder)
+    if os.path.exists(test_location):
+        shutil.rmtree(test_location)
+
 
 
 
