@@ -7,7 +7,7 @@ __pycache__/
 .vscode
 
 # project specific files
-src/spasco/settings.ini
+spasco/settings.ini
 todo.txt
 
 # mypy
