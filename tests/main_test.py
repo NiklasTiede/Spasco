@@ -1,5 +1,5 @@
 # run tests with 'pytest -s -vvv'
-# if a test fails: a folder named 'renaming_tests' might be left as artifact
+# if a test fails: a folder named 'renaming_tests' might be left as artifact, sometimes must be removed manually
 import glob
 import os
 import pathlib
@@ -183,6 +183,93 @@ def test_renaming_with_filesonly_flag(capsys):
     os.chdir(tests_folder)
     if os.path.exists(test_location):
         shutil.rmtree(test_location)
+
+
+###################################################################
+# Test 4: dirs-only (-d) flag
+
+expected_files_dirs_with_dirsonly_flag = [
+    'file 1.py',
+    'file-2.js',
+    'folder-2',
+    'folder-2/file 21.py',
+    'folder-2/file-22.js',
+    'folder-2/folder21',
+    'folder-2/folder22',
+    'folder_1',              # renamed
+    'folder_1/file 11.py',
+    'folder_1/file-12.js',
+    'folder_1/folder 12',
+    'folder_1/folder-11'
+    ]
+
+
+def test_renaming_with_dirsonly_flag(capsys):
+    """ Tests if the dirs-only flag is functional.
+    """
+    # generate folder/files for renaming test
+    create_test_files_and_dirs()
+
+    # renaming operation
+    main(['dummy', '-i', '-d'])
+
+    resulting_filesdirs = listdir_recursively()
+    assert resulting_filesdirs == expected_files_dirs_with_dirsonly_flag
+
+    # compare the generated output message of spasco to the expected message:
+    captured_statement = capsys.readouterr().out
+    expected_statement = "All done! 0 files and 1 directories were renamed ✨ 🍰 ✨.\n"
+    assert captured_statement == expected_statement
+
+    # remove all generated folders/files:
+    os.chdir(tests_folder)
+    if os.path.exists(test_location):
+        shutil.rmtree(test_location)
+
+
+###################################################################
+# Test 5: select one target (-t) flag
+
+expected_files_dirs_with_singletarget_flag = [
+    'file 1.py',
+    'file-2.js',
+    'folder 1',
+    'folder 1/file 11.py',
+    'folder 1/file-12.js',
+    'folder 1/folder 12',
+    'folder 1/folder-11',
+    'folder-2',
+    'folder-2/file-22.js',
+    'folder-2/file_21.py',   # renamed
+    'folder-2/folder21',
+    'folder-2/folder22'
+    ]
+
+
+def test_renaming_with_singletarget_flag(capsys):
+    """ Tests if the singletarget flag is functional.
+    """
+    # generate folder/files for renaming test
+    create_test_files_and_dirs()
+
+    # renaming operation
+    main(['dummy', '-i', '-t', 'folder-2/file 21.py'])
+
+    resulting_filesdirs = listdir_recursively()
+    assert resulting_filesdirs == expected_files_dirs_with_singletarget_flag
+
+    # compare the generated output message of spasco to the expected message:
+    captured_statement = capsys.readouterr().out
+    expected_statement = "All done! 1 files and 0 directories were renamed ✨ 🍰 ✨.\n"
+    assert captured_statement == expected_statement
+
+    # remove all generated folders/files:
+    os.chdir(tests_folder)
+    if os.path.exists(test_location):
+        shutil.rmtree(test_location)
+
+
+
 
 
 ######################################################################
