@@ -1,8 +1,7 @@
 # this scripts returns an arrays of all files/dirs contained within the 'renaming_tests' folder
 # to confirm the hardcoded results of spasco's renaming operation
-
-import os
 import glob
+import os
 from pprint import pprint
 
 

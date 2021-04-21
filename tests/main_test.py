@@ -1,15 +1,12 @@
-
 # run tests with 'pytest -s -vvv'
 # if a test fails: a folder named 'renaming_tests' might be left as artifact
-
-
-import os
-import shutil
-import pathlib
 import glob
+import os
+import pathlib
+import shutil
 import time
-from typing import List
 from pprint import pprint
+from typing import List
 
 from spasco.main import main
 
@@ -35,6 +32,7 @@ files = [
 test_location = 'renaming_tests'
 os.chdir('tests')
 tests_folder = os.getcwd()
+
 
 def create_test_files_and_dirs():
     # os.chdir('tests')
@@ -75,11 +73,12 @@ expected_filesdirs_without_flags = [
     'folder_1/file 11.py',
     'folder_1/file-12.js',
     'folder_1/folder 12',
-    'folder_1/folder-11'
-    ]
+    'folder_1/folder-11',
+]
+
 
 def test_renaming_without_flags(capsys):
-    """ Tests if the default renaming is functional: 
+    """ Tests if the default renaming is functional:
     ' ' to '_' of all files/dirs within current directory.
     """
     # generate folder/files for renaming test
@@ -117,8 +116,9 @@ expected_files_dirs_with_recursive_flag = [
     'folder_1/file-12.js',
     'folder_1/file_11.py',   # renamed
     'folder_1/folder-11',
-    'folder_1/folder_12'     # renamed
-    ]
+    'folder_1/folder_12',    # renamed
+]
+
 
 def test_renaming_with_recursive_flag(capsys):
     """ Tests if the recursive flag is functional.
@@ -145,6 +145,7 @@ def test_renaming_with_recursive_flag(capsys):
 ###################################################################
 # Test 3: files-only (-f) flag
 
+
 expected_files_dirs_with_filesonly_flag = [
     'file-2.js',
     'file_1.py',            # renamed
@@ -157,8 +158,8 @@ expected_files_dirs_with_filesonly_flag = [
     'folder-2/file 21.py',
     'folder-2/file-22.js',
     'folder-2/folder21',
-    'folder-2/folder22'
-    ]
+    'folder-2/folder22',
+]
 
 
 def test_renaming_with_filesonly_flag(capsys):
@@ -182,9 +183,6 @@ def test_renaming_with_filesonly_flag(capsys):
     os.chdir(tests_folder)
     if os.path.exists(test_location):
         shutil.rmtree(test_location)
-
-
-
 
 
 ######################################################################
