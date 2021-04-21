@@ -20,9 +20,9 @@
 [comment]: <> (![total lines]&#40;https://img.shields.io/&#41; # https://shields.io/category/size)
 
 <p align="justify">
-  This tiny command line tool lets you replace whitespaces occurring in file or
-  directory names by underscores. Whitespaces are a reserved keyword on the terminal
-  to separate arguments and thus their usage when naming files/dirs can be problematic.
+  Spasco is a glorified replace function: it lets you remove or replace characters occurring 
+  in file or directory names. By default it replaces whitespaces by underscores but you can easily
+  customize the characters you want to remove/replace. 
 </p>
 
 <h1 id="example" ><img src="docs/example.png" width="34px"#> Example</h1>
@@ -40,7 +40,9 @@ test file
 before             after
 'test dir'  --> 'test_dir'
 'test file' --> 'test_file'
-OK to proceed with renaming? [y/n] y
+
+❯ OK to proceed with renaming? [y/n] y
+All done! 1 files and 1 directories were renamed ✨ 🍰 ✨.
 
 ❯ ls
 test_dir
