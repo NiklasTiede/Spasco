@@ -78,6 +78,7 @@ def main(argv):
     
     args = main_parser.parse_args(args=argv)
 
+    # print(vars(args))
     # logging.debug(vars(args))
 
     # triggering config subparser
@@ -188,9 +189,16 @@ def main(argv):
     #  3 renaming  #
     ################
 
-    NEW_VALUE = args.new_value if args.new_value else config.get(
-        'VALUE-SETTINGS', 'new_value',
-    )
+    if args.new_value:
+        print(f'new val is {args.new_value!r}')
+        NEW_VALUE = args.new_value
+    if args.new_value == None:
+        print('new val is None')
+        NEW_VALUE = config.get('VALUE-SETTINGS', 'new_value')
+    if args.new_value == '':
+        print('new val is empty string')
+        NEW_VALUE = ''
+
 
     filecount, dircount, renamed_paths = path_renaming(
         path_lst=filtered_paths,
