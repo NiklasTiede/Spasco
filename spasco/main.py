@@ -14,7 +14,7 @@ from argparse import _SubParsersAction
 from argparse import ArgumentParser
 from argparse import HelpFormatter
 from pprint import pprint
-from typing import List
+from typing import List, Tuple
 
 from spasco import __src_url__, __title__, __version__
 from spasco.term_color import fmt
@@ -135,6 +135,7 @@ def main(argv):
     )
 
     # ------ pattern-only filter ------
+
     [
         files_dirs.remove(x) for x in files_dirs.copy() if args.pattern_only and
         not fnmatch.fnmatch(os.path.split(x)[1], args.pattern_only)
@@ -150,8 +151,8 @@ def main(argv):
 
     # ------ except-pattern filter -----
     [
-        files_dirs.remove(x) for x in files_dirs.copy() if args.pattern_only and
-        fnmatch.fnmatch(os.path.split(x)[1], args.pattern_only)
+        files_dirs.remove(x) for x in files_dirs.copy() if args.except_pattern and
+        fnmatch.fnmatch(os.path.split(x)[-1], args.except_pattern)
     ]
     if not files_dirs:
         print(
@@ -191,18 +192,11 @@ def main(argv):
         'VALUE-SETTINGS', 'new_value',
     )
 
-    renamed_paths = path_renaming(
+    filecount, dircount, renamed_paths = path_renaming(
         path_lst=filtered_paths,
         search_value=SEARCH_VALUE,
         new_value=NEW_VALUE,
     )
-
-    # print(f'{len(filtered_paths)} files/directories can be renamed:')
-    # print(f"before {' ' * (max([len(x) for x in filtered_paths]) - len('before') + 6)} after",)
-    # for before, after in list(zip(filtered_paths, renamed_paths)):
-    #     print(f"{before!r}{' ' * (max([len(x) for x in filtered_paths]) - len(before))} --> {after!r}",)
-
-
     if args.immediately:
         is_proceeding = 'y'
     else:
@@ -210,25 +204,11 @@ def main(argv):
         print(f"before {' ' * (max([len(x) for x in filtered_paths]) - len('before') + 6)} after",)
         for before, after in list(zip(filtered_paths, renamed_paths)):
             print(f"{before!r}{' ' * (max([len(x) for x in filtered_paths]) - len(before))} --> {after!r}",)
-
         is_proceeding = input('OK to proceed with renaming? [y/n] ')
-
-
     if is_proceeding.lower() == 'y':
-        new_pathnames = path_renaming(
+        filecount, dircount, new_pathnames = path_renaming(
             path_lst=filtered_paths, search_value=SEARCH_VALUE, new_value=NEW_VALUE, renaming=True,
         )
-        filecount, dircount = 0, 0
-
-        for path in new_pathnames:
-            # fullpath = os.getcwd() + '/' + path
-            # print(fullpath)
-            if os.path.isdir(path):
-                # print(fullpath)
-                dircount += 1
-            if os.path.isfile(path):
-                # print(fullpath)
-                filecount += 1
         print(f'All done! {filecount} files and {dircount} directories were renamed ✨ 🍰 ✨.')
         return 0
     else:
@@ -319,21 +299,23 @@ def execute_config(config_subparser, argv):
     return 1
 
 
-def path_renaming(path_lst: List[str], search_value: str, new_value: str, renaming: bool = False) -> List[str]:
+def path_renaming(path_lst: List[str], search_value: str, new_value: str, renaming: bool = False) -> Tuple[int, int, List[str]]:
     """ names if renamed paths are returned and they can be  """
     renamed_paths = []
+    dircount, filecount = 0, 0
     for old_path_name in path_lst:
-        resulting_name = old_path_name.replace(search_value, new_value)
-        renamed_paths.append(resulting_name)
         path_base, file = os.path.split(old_path_name)
         new_name = file.replace(search_value, new_value)
         full_new = os.path.join(path_base, new_name)
+        renamed_paths.append(full_new)
         if renaming:
             os.rename(old_path_name, full_new)
-            logging.info(
-                f" working dir: {os.getcwd()!r} | naming: {old_path_name!r} --> {full_new!r}",
-            )
-    return renamed_paths
+            if os.path.isdir(full_new):
+                dircount += 1
+            elif os.path.isfile(full_new):
+                filecount += 1
+            logging.info(f" working dir: {os.getcwd()!r} | naming: {old_path_name!r} --> {full_new!r}",)
+    return (filecount, dircount, renamed_paths)
 
 
 def recurse_dirs_and_files() -> List[str]:
