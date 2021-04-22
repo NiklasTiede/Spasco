@@ -189,15 +189,12 @@ def main(argv):
     #  3 renaming  #
     ################
 
+    if args.new_value == '':
+        NEW_VALUE = ''
     if args.new_value:
-        print(f'new val is {args.new_value!r}')
         NEW_VALUE = args.new_value
     if args.new_value == None:
-        print('new val is None')
         NEW_VALUE = config.get('VALUE-SETTINGS', 'new_value')
-    if args.new_value == '':
-        print('new val is empty string')
-        NEW_VALUE = ''
 
 
     filecount, dircount, renamed_paths = path_renaming(
