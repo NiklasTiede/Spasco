@@ -269,6 +269,46 @@ def test_renaming_with_singletarget_flag(capsys):
         shutil.rmtree(test_location)
 
 
+###################################################################
+# Test 6: patternonly (-p) flag
+
+expected_files_dirs_with_patternonly_flag = [
+    'file-2.js',            # renamed
+    'file_1.py',
+    'folder 1',
+    'folder 1/file-12.js',
+    'folder 1/file_11.py',  # renamed
+    'folder 1/folder 12',
+    'folder 1/folder-11',
+    'folder-2',
+    'folder-2/file-22.js',
+    'folder-2/file_21.py',  # renamed 
+    'folder-2/folder21',
+    'folder-2/folder22'
+    ]
+
+
+def test_renaming_with_patternonly_flag(capsys):
+    """ Tests if the patternonly flag is functional.
+    """
+    # generate folder/files for renaming test
+    create_test_files_and_dirs()
+
+    # renaming operation
+    main(['dummy', '-i', '-r', '-p', '*.py'])
+
+    resulting_filesdirs = listdir_recursively()
+    assert resulting_filesdirs == expected_files_dirs_with_patternonly_flag
+
+    # compare the generated output message of spasco to the expected message:
+    captured_statement = capsys.readouterr().out
+    expected_statement = "All done! 3 files and 0 directories were renamed ✨ 🍰 ✨.\n"
+    assert captured_statement == expected_statement
+
+    # remove all generated folders/files:
+    os.chdir(tests_folder)
+    if os.path.exists(test_location):
+        shutil.rmtree(test_location)
 
 
 
