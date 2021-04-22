@@ -311,6 +311,130 @@ def test_renaming_with_patternonly_flag(capsys):
         shutil.rmtree(test_location)
 
 
+###################################################################
+# Test 6: exceptpattern (-p) flag
+
+expected_files_dirs_with_exceptpattern_flag = [
+    'file 1.py',
+    'file-2.js',
+    'folder-2',
+    'folder-2/file 21.py',
+    'folder-2/file-22.js',
+    'folder-2/folder21',
+    'folder-2/folder22',
+    'folder_1',            # renamed 
+    'folder_1/file 11.py',
+    'folder_1/file-12.js',
+    'folder_1/folder-11',
+    'folder_1/folder_12'   # renamed
+    ] 
+
+def test_renaming_with_exceptpattern_flag(capsys):
+    """ Tests if the exceptpattern flag is functional.
+    """
+    # generate folder/files for renaming test
+    create_test_files_and_dirs()
+
+    # renaming operation
+    main(['dummy', '-i', '-r', '-e', '*.py'])
+
+    resulting_filesdirs = listdir_recursively()
+    assert resulting_filesdirs == expected_files_dirs_with_exceptpattern_flag
+
+    # compare the generated output message of spasco to the expected message:
+    captured_statement = capsys.readouterr().out
+    expected_statement = "All done! 0 files and 2 directories were renamed ✨ 🍰 ✨.\n"
+    assert captured_statement == expected_statement
+
+    # remove all generated folders/files:
+    os.chdir(tests_folder)
+    if os.path.exists(test_location):
+        shutil.rmtree(test_location)
+
+###################################################################
+# Test 7: searchvalue (-s) flag
+
+
+expected_files_dirs_with_searchvalue_flag = [
+    'file 1.py',
+    'file_2.js',           # renamed
+    'folder 1',
+    'folder 1/file 11.py',
+    'folder 1/file_12.js', # renamed
+    'folder 1/folder 12',
+    'folder 1/folder_11',  # renamed
+    'folder_2',            # renamed
+    'folder_2/file 21.py',
+    'folder_2/file_22.js', # renamed
+    'folder_2/folder21',
+    'folder_2/folder22'
+    ]
+
+
+def test_renaming_with_searchvalue_flag(capsys):
+    """ Tests if the searchvalue flag is functional.
+    """
+    # generate folder/files for renaming test
+    create_test_files_and_dirs()
+
+    # renaming operation
+    main(['dummy', '-i', '-r', '-s', '-'])
+
+    resulting_filesdirs = listdir_recursively()
+    assert resulting_filesdirs == expected_files_dirs_with_searchvalue_flag
+
+    # compare the generated output message of spasco to the expected message:
+    captured_statement = capsys.readouterr().out
+    expected_statement = "All done! 3 files and 2 directories were renamed ✨ 🍰 ✨.\n"
+    assert captured_statement == expected_statement
+
+    # remove all generated folders/files:
+    os.chdir(tests_folder)
+    if os.path.exists(test_location):
+        shutil.rmtree(test_location)
+
+
+###################################################################
+# Test 7: newvalue (-n) flag
+
+expected_files_dirs_with_newvalue_flag = [
+    'file-2.js',
+    'file1.py',
+    'folder-2',
+    'folder-2/file-22.js',
+    'folder-2/file21.py',
+    'folder-2/folder21',
+    'folder-2/folder22',
+    'folder1',
+    'folder1/file-12.js',
+    'folder1/file11.py',
+    'folder1/folder-11',
+    'folder1/folder12'
+    ]
+
+
+def test_renaming_with_searchvalue_flag(capsys):
+    """ Tests if the searchvalue flag is functional.
+    """
+    # generate folder/files for renaming test
+    create_test_files_and_dirs()
+
+    # renaming operation
+    main(['dummy', '-i', '-r', '-n', ''])
+
+    resulting_filesdirs = listdir_recursively()
+    assert resulting_filesdirs == expected_files_dirs_with_newvalue_flag
+
+    # compare the generated output message of spasco to the expected message:
+    captured_statement = capsys.readouterr().out
+    expected_statement = "All done! 3 files and 2 directories were renamed ✨ 🍰 ✨.\n"
+    assert captured_statement == expected_statement
+
+    # remove all generated folders/files:
+    os.chdir(tests_folder)
+    if os.path.exists(test_location):
+        shutil.rmtree(test_location)
+
 
 ######################################################################
 # deleting test-files/dirs even if a test failed:
