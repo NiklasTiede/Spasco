@@ -69,17 +69,9 @@ def main(argv):
         Zero on successful program termination, non-zero otherwise.
     """
 
-    # parser = __build_parser()[0]
-    # args = parser.parse_args(argv[1:])
-
     main_parser, config_subparser = __build_parser()
-
     argv = argv[1:]
-    
     args = main_parser.parse_args(args=argv)
-
-    # print(vars(args))
-    # logging.debug(vars(args))
 
     # triggering config subparser
     if vars(args).get('command', None) == 'config':
@@ -122,63 +114,33 @@ def main(argv):
     logging.debug(f'number of all files/dirs: {len(all_selected_files_dirs)}')
 
     # ------ search-value filter ------
-    [
-        files_dirs.remove(x)
-        for x in all_selected_files_dirs if not SEARCH_VALUE in x.split('/')[-1]
-    ]
+    [files_dirs.remove(x) for x in all_selected_files_dirs if not SEARCH_VALUE in x.split('/')[-1]]
+
     if not files_dirs:
-        print(
-            f'None of the selected {len(all_selected_files_dirs)} files/dirs contained the search-value {SEARCH_VALUE!r} ',
-        )
+        print(f'None of the selected {len(all_selected_files_dirs)} files/dirs contained the search-value {SEARCH_VALUE!r} ',)
         return 1
-    logging.debug(
-        f'selected list after 1st filter (search-value): {files_dirs}',
-    )
 
     # ------ pattern-only filter ------
-
-    [
-        files_dirs.remove(x) for x in files_dirs.copy() if args.pattern_only and
-        not fnmatch.fnmatch(os.path.split(x)[1], args.pattern_only)
-    ]
+    [files_dirs.remove(x) for x in files_dirs.copy() if args.pattern_only and not fnmatch.fnmatch(os.path.split(x)[1], args.pattern_only)]
     if not files_dirs:
-        print(
-            f'No file/dir present containing the pattern {args.pattern_only!r} ',
-        )
+        print(f'No file/dir present containing the pattern {args.pattern_only!r} ',)
         return 1
-    logging.debug(
-        f'selected list after 2nd filter (pattern-only): {files_dirs}',
-    )
 
     # ------ except-pattern filter -----
-    [
-        files_dirs.remove(x) for x in files_dirs.copy() if args.except_pattern and
-        fnmatch.fnmatch(os.path.split(x)[-1], args.except_pattern)
-    ]
+    [files_dirs.remove(x) for x in files_dirs.copy() if args.except_pattern and fnmatch.fnmatch(os.path.split(x)[-1], args.except_pattern)]
+
     if not files_dirs:
-        print(
-            f'No file/dir present containing the search-value {SEARCH_VALUE!r} and not the except-pattern {args.except_pattern!r} ',
-        )
+        print(f'No file/dir present containing the search-value {SEARCH_VALUE!r} and not the except-pattern {args.except_pattern!r} ',)
         return 1
-    logging.debug(
-        f'selected list after 3rd filter (except-pattern): {files_dirs}',
-    )
 
     # ------ dirs-only filter -----
-    [
-        files_dirs.remove(x) for x in files_dirs.copy()
-        if args.dirs_only and not os.path.isdir(x)
-    ]
+    [files_dirs.remove(x) for x in files_dirs.copy() if args.dirs_only and not os.path.isdir(x)]
     if not files_dirs:
         print(f'No directory present after filtering out files.')
         return 1
-    logging.debug(f'selected list after 4th filter (dirs-only): {files_dirs}')
 
     # ------ files-only filter -----
-    [
-        files_dirs.remove(x) for x in files_dirs.copy() if args.files_only and
-        not os.path.isfile(x)
-    ]
+    [files_dirs.remove(x) for x in files_dirs.copy() if args.files_only and not os.path.isfile(x)]
     if not files_dirs:
         print(f'No file present after filtering out directories.')
         return 1
@@ -221,27 +183,23 @@ def main(argv):
         return 1
 
 
+settings_msg = f"""
+{fmt("value settings:", Txt.greenblue)}
+  search_value: {config.get('VALUE-SETTINGS', 'search_value')}
+  new_value: {config.get('VALUE-SETTINGS', 'new_value')}
+{fmt("log settings:", Txt.greenblue)}
+  logging_turned_on: {config.getboolean('LOG-SETTINGS', 'logging_turned_on')}
+  logger_filename: {config.get('LOG-SETTINGS', 'logger_filename')}
+  logger_location: {config.get('LOG-SETTINGS', 'logger_location')}
+"""
+
 def execute_config(config_subparser, argv):
     """ subparser triggering from main is refactored in here. """
 
     args = config_subparser.parse_args(argv[1:])
 
     if args.show_settings:
-        print(f'{fmt("value settings:", Txt.greenblue)}')
-        print(
-            f"  search_value: {config.get('VALUE-SETTINGS', 'search_value')}",
-        )
-        print(f"  new_value: {config.get('VALUE-SETTINGS', 'new_value')}")
-        print(f'{fmt("log settings:", Txt.greenblue)}')
-        print(
-            f"  logging_turned_on: {config.getboolean('LOG-SETTINGS', 'logging_turned_on')}",
-        )
-        print(
-            f"  logger_filename: {config.get('LOG-SETTINGS', 'logger_filename')}",
-        )
-        print(
-            f"  logger_location: {config.get('LOG-SETTINGS', 'logger_location')}",
-        )
+        print(settings_msg)
         return 0
 
     if args.turn_log_on:
@@ -260,9 +218,7 @@ def execute_config(config_subparser, argv):
         config['LOG-SETTINGS']['logger_filename'] = args.log_name
         with open(settings_file, 'w') as fp:
             config.write(fp)
-        print(
-            f"The new log filename is {config.get('LOG-SETTINGS', 'logger_filename')}",
-        )
+        print(f"The new log filename is {config.get('LOG-SETTINGS', 'logger_filename')}",)
         return 0
 
     if args.log_location:
@@ -270,34 +226,26 @@ def execute_config(config_subparser, argv):
         if '~' in args.log_location:
             log_location = os.path.expanduser(args.log_location)
         if not os.path.isdir(log_location):
-            print(
-                f'The given path {args.log_location!r} is not a valid directory!',
-            )
+            print(f'The given path {args.log_location!r} is not a valid directory!',)
             return 1
         config['LOG-SETTINGS']['logger_location'] = log_location
         with open(settings_file, 'w') as fp:
             config.write(fp)
-        print(
-            f"The new log location is {config.get('LOG-SETTINGS', 'logger_location')}",
-        )
+        print(f"The new log location is {config.get('LOG-SETTINGS', 'logger_location')}",)
         return 0
 
     if args.set_search_value:
         config['VALUE-SETTINGS']['search_value'] = args.set_search_value
         with open(settings_file, 'w') as fp:
             config.write(fp)
-        print(
-            f"The new search-value is {config.get('VALUE-SETTINGS', 'search_value')}",
-        )
+        print(f"The new search-value is {config.get('VALUE-SETTINGS', 'search_value')}",)
         return 0
 
     if args.set_new_value:
         config['VALUE-SETTINGS']['new_value'] = args.set_new_value
         with open(settings_file, 'w') as fp:
             config.write(fp)
-        print(
-            f"The new 'new-value' is {config.get('VALUE-SETTINGS', 'new_value')}",
-        )
+        print(f"The new 'new-value' is {config.get('VALUE-SETTINGS', 'new_value')}")
         return 0
 
     config_subparser.print_help()
@@ -305,7 +253,7 @@ def execute_config(config_subparser, argv):
 
 
 def path_renaming(path_lst: List[str], search_value: str, new_value: str, renaming: bool = False) -> Tuple[int, int, List[str]]:
-    """ names if renamed paths are returned and they can be  """
+    """ renames the filtered list of paths and counts the number of directories/files. """
     renamed_paths = []
     dircount, filecount = 0, 0
     for old_path_name in path_lst:
@@ -345,8 +293,6 @@ def recurse_dirs_and_files() -> List[str]:
 
 
 # hack for removing the metavar below the subparsers title
-
-
 class NoSubparsersMetavarFormatter(HelpFormatter):
     def _format_action(self, action):
         result = super()._format_action(action)
