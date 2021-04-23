@@ -56,9 +56,9 @@ logging.basicConfig(
 )
 
 
-if sys.platform != 'linux':
-    print(f"{__title__!r} is currently not optimized for Windows / OS X")
-    sys.exit(1)
+# if sys.platform != 'linux':
+#     print(f"{__title__!r} is currently not optimized for Windows / OS X")
+#     sys.exit(1)
 
 
 def main(argv):
@@ -224,7 +224,7 @@ settings_msg = f"""{fmt("value settings:", Txt.greenblue)}
   logger_location: {config.get('LOG-SETTINGS', 'logger_location')}"""
 
 def execute_config(config_subparser, argv):
-    """ subparser triggering from main is refactored in here. """
+    """ Boolean logic of config subparser triggering. """
 
     args = config_subparser.parse_args(argv[1:])
 
@@ -301,7 +301,12 @@ def execute_config(config_subparser, argv):
 
 
 def path_renaming(path_lst: List[str], search_value: str, new_value: str, renaming: bool = False) -> Tuple[int, int, List[str]]:
-    """ renames the filtered list of paths and counts the number of directories/files. """
+    """ List of filtered files and directories are renamed and their names
+    returned. Furthermore, the number fo directories/files which were renamed 
+    are also returned.
+    :returns
+      Tuples containing the number of directories, files and the names of them after renaming
+    """
     renamed_paths = []
     dircount, filecount = 0, 0
     for old_path_name in path_lst:
@@ -320,9 +325,10 @@ def path_renaming(path_lst: List[str], search_value: str, new_value: str, renami
 
 
 def recurse_dirs_and_files() -> List[str]:
-    """ all directories and files
+    """ All files/directories within the current working directory are mapped
+    into a list. 
     :returns
-        all dirs and files recursive, sorted
+      List of all file/directory paths, recursively and sorted
     """
     all_files_dirs = []
     base_path = os.getcwd()
@@ -544,10 +550,8 @@ def add_config_subparser(sub_parsers):
 
 
 def add_parser_help(parser):
-    """
-    So we can use consistent capitalization and periods in the help. You must
-    use the add_help=False argument to ArgumentParser or add_parser to use
-    this. Add this first to be consistent with the default argparse output.
+    """Custom help-argument to have consistent style. 
+    add_help=False to enable this.
     """
 
     parser.add_argument(
