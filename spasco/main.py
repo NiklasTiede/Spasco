@@ -43,8 +43,6 @@ if not config.read(settings_file):
         config.write(f)
 
 
-# set a logger
-# TODO: log each renamed path
 logger_path = f"{config.get('LOG-SETTINGS', 'logger_location')}/{config.get('LOG-SETTINGS', 'logger_filename')}"
 logging.basicConfig(
     filename=logger_path,
@@ -78,9 +76,9 @@ def main(argv):
         execute_config(config_subparser, argv)
         return 0
 
-    #######################
-    # 1 select/sort paths #
-    #######################
+    ###########################
+    # 1 select and sort paths #
+    ###########################
 
     files_dirs = []
 
@@ -109,9 +107,7 @@ def main(argv):
         SEARCH_VALUE = ' '
 
     filtered_paths = []
-    logging.debug(f'selected list before 1st filter: {files_dirs}')
     all_selected_files_dirs = files_dirs.copy()
-    logging.debug(f'number of all files/dirs: {len(all_selected_files_dirs)}')
 
     # ------ search-value filter ------
     [files_dirs.remove(x) for x in all_selected_files_dirs if not SEARCH_VALUE in x.split('/')[-1]]
@@ -144,7 +140,7 @@ def main(argv):
     if not files_dirs:
         print(f'No file present after filtering out directories.')
         return 1
-    logging.debug(f'selected list after 5th filter (files-only): {files_dirs}')
+
     filtered_paths = files_dirs
 
     ################
@@ -158,40 +154,64 @@ def main(argv):
     if args.new_value == None:
         NEW_VALUE = config.get('VALUE-SETTINGS', 'new_value')
 
-
     filecount, dircount, renamed_paths = path_renaming(
         path_lst=filtered_paths,
         search_value=SEARCH_VALUE,
         new_value=NEW_VALUE,
     )
+    
     if args.immediately:
         is_proceeding = 'y'
     else:
-        print(f'{len(filtered_paths)} files/directories can be renamed:')
-        print(f"before {' ' * (max([len(x) for x in filtered_paths]) - len('before') + 6)} after",)
+        longest_path = max([len(x) for x in filtered_paths])
+
+        msg = f'You can rename {len(filtered_paths)} files and/or directories. 🔨'
+        colored_msg = fmt(msg, Txt.greenblue) 
+        print(colored_msg)
+        print()
+        before_heading = fmt('Before', Txt.pink, bolded=True)
+        after_heading = fmt('After', Txt.blue, bolded=True)
+        sep_line1 = fmt('──', Txt.greenblue)
+        sep_line2 = fmt('──', Txt.greenblue)
+
+        # print(f'🔨 {len(filtered_paths)} files and/or directories can be renamed. 🔨')
+        print(f"{before_heading} {' ' * (max([len(x) for x in filtered_paths]) - len('before') + 6)} {after_heading}",)
+        print(f"{sep_line1 * (max([len(x) for x in filtered_paths]) + 4)}")
+        # for before, after in list(zip(filtered_paths, renamed_paths)):
+        #     print(f"{fmt(before, Txt.green)}{' ' * (max([len(x) for x in filtered_paths]) - len(before))}  🡆  {after!r}",)
         for before, after in list(zip(filtered_paths, renamed_paths)):
-            print(f"{before!r}{' ' * (max([len(x) for x in filtered_paths]) - len(before))} --> {after!r}",)
-        is_proceeding = input('OK to proceed with renaming? [y/n] ')
+            before_renaming = fmt(before, Txt.pink)
+            after_renaming = fmt(after, Txt.blue)
+            print(f"'{before_renaming}'{' ' * (max([len(x) for x in filtered_paths]) - len(before))}  {fmt('🡆', Txt.greenblue)}  '{after_renaming}'",)
+        print(f"{sep_line2 * (max([len(x) for x in filtered_paths]) + 4)}")
+        print()
+
+        q = fmt(' [y/n] ', Txt.pink)
+        proceed_msg = fmt(f'OK to proceed with renaming?', Txt.greenblue)
+        is_proceeding = input(proceed_msg + q)
+
     if is_proceeding.lower() == 'y':
         filecount, dircount, new_pathnames = path_renaming(
-            path_lst=filtered_paths, search_value=SEARCH_VALUE, new_value=NEW_VALUE, renaming=True,
+            path_lst=filtered_paths, 
+            search_value=SEARCH_VALUE, 
+            new_value=NEW_VALUE, 
+            renaming=True,
         )
-        print(f'All done! {filecount} files and {dircount} directories were renamed ✨ 🍰 ✨.')
+        success_msg = fmt(f'All done! {filecount} files and {dircount} directories were renamed! ✨💄✨', Txt.greenblue)
+        print(success_msg)
         return 0
     else:
-        print(fmt("command aborted.", textcolor=Txt.greenblue))
+        print(fmt("Command aborted.", textcolor=Txt.pink))   
         return 1
 
 
-settings_msg = f"""
-{fmt("value settings:", Txt.greenblue)}
+settings_msg = f"""{fmt("value settings:", Txt.greenblue)}
   search_value: {config.get('VALUE-SETTINGS', 'search_value')}
   new_value: {config.get('VALUE-SETTINGS', 'new_value')}
 {fmt("log settings:", Txt.greenblue)}
   logging_turned_on: {config.getboolean('LOG-SETTINGS', 'logging_turned_on')}
   logger_filename: {config.get('LOG-SETTINGS', 'logger_filename')}
-  logger_location: {config.get('LOG-SETTINGS', 'logger_location')}
-"""
+  logger_location: {config.get('LOG-SETTINGS', 'logger_location')}"""
 
 def execute_config(config_subparser, argv):
     """ subparser triggering from main is refactored in here. """

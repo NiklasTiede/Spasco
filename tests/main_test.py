@@ -92,7 +92,7 @@ def test_renaming_without_flags(capsys):
 
     # # compare the generated output message of spasco to the expected message:
     captured_statement = capsys.readouterr().out
-    expected_statement = "All done! 1 files and 1 directories were renamed ✨ 🍰 ✨.\n"
+    expected_statement = '\033[36mAll done! 1 files and 1 directories were renamed! ✨💄✨\033[0m\n'
     assert captured_statement == expected_statement
 
     # remove all generated folders/files:
@@ -134,7 +134,7 @@ def test_renaming_with_recursive_flag(capsys):
 
     # compare the generated output message of spasco to the expected message:
     captured_statement = capsys.readouterr().out
-    expected_statement = "All done! 3 files and 2 directories were renamed ✨ 🍰 ✨.\n"
+    expected_statement = '\033[36mAll done! 3 files and 2 directories were renamed! ✨💄✨\033[0m\n'
     assert captured_statement == expected_statement
 
     # remove all generated folders/files:
@@ -176,7 +176,7 @@ def test_renaming_with_filesonly_flag(capsys):
 
     # compare the generated output message of spasco to the expected message:
     captured_statement = capsys.readouterr().out
-    expected_statement = "All done! 1 files and 0 directories were renamed ✨ 🍰 ✨.\n"
+    expected_statement = '\033[36mAll done! 1 files and 0 directories were renamed! ✨💄✨\033[0m\n'
     assert captured_statement == expected_statement
 
     # remove all generated folders/files:
@@ -218,7 +218,7 @@ def test_renaming_with_dirsonly_flag(capsys):
 
     # compare the generated output message of spasco to the expected message:
     captured_statement = capsys.readouterr().out
-    expected_statement = "All done! 0 files and 1 directories were renamed ✨ 🍰 ✨.\n"
+    expected_statement = '\033[36mAll done! 0 files and 1 directories were renamed! ✨💄✨\033[0m\n'
     assert captured_statement == expected_statement
 
     # remove all generated folders/files:
@@ -260,7 +260,7 @@ def test_renaming_with_singletarget_flag(capsys):
 
     # compare the generated output message of spasco to the expected message:
     captured_statement = capsys.readouterr().out
-    expected_statement = "All done! 1 files and 0 directories were renamed ✨ 🍰 ✨.\n"
+    expected_statement = '\033[36mAll done! 1 files and 0 directories were renamed! ✨💄✨\033[0m\n'
     assert captured_statement == expected_statement
 
     # remove all generated folders/files:
@@ -302,7 +302,7 @@ def test_renaming_with_patternonly_flag(capsys):
 
     # compare the generated output message of spasco to the expected message:
     captured_statement = capsys.readouterr().out
-    expected_statement = "All done! 3 files and 0 directories were renamed ✨ 🍰 ✨.\n"
+    expected_statement = '\033[36mAll done! 3 files and 0 directories were renamed! ✨💄✨\033[0m\n'
     assert captured_statement == expected_statement
 
     # remove all generated folders/files:
@@ -343,7 +343,7 @@ def test_renaming_with_exceptpattern_flag(capsys):
 
     # compare the generated output message of spasco to the expected message:
     captured_statement = capsys.readouterr().out
-    expected_statement = "All done! 0 files and 2 directories were renamed ✨ 🍰 ✨.\n"
+    expected_statement = '\033[36mAll done! 0 files and 2 directories were renamed! ✨💄✨\033[0m\n'
     assert captured_statement == expected_statement
 
     # remove all generated folders/files:
@@ -385,7 +385,7 @@ def test_renaming_with_searchvalue_flag(capsys):
 
     # compare the generated output message of spasco to the expected message:
     captured_statement = capsys.readouterr().out
-    expected_statement = "All done! 3 files and 2 directories were renamed ✨ 🍰 ✨.\n"
+    expected_statement = '\033[36mAll done! 3 files and 2 directories were renamed! ✨💄✨\033[0m\n'
     assert captured_statement == expected_statement
 
     # remove all generated folders/files:
@@ -427,7 +427,7 @@ def test_renaming_with_searchvalue_flag(capsys):
 
     # compare the generated output message of spasco to the expected message:
     captured_statement = capsys.readouterr().out
-    expected_statement = "All done! 3 files and 2 directories were renamed ✨ 🍰 ✨.\n"
+    expected_statement = '\033[36mAll done! 3 files and 2 directories were renamed! ✨💄✨\033[0m\n'
     assert captured_statement == expected_statement
 
     # remove all generated folders/files:
