@@ -56,9 +56,8 @@ logging.basicConfig(
 )
 
 
-# if sys.platform != 'linux':
-#     print(f"{__title__!r} is currently not optimized for Windows / OS X")
-#     sys.exit(1)
+if (sys.platform != 'linux' and sys.platform != 'darwin'):
+    print(f"{__title__!r} is currently not optimized for platforms other than OS X / linux")
 
 
 def main(argv):
