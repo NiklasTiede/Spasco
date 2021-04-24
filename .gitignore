@@ -53,3 +53,5 @@ src/spasco.egg-info
 **/tests_output
 docs/build
 tests/failures.txt
+.tox/
+
