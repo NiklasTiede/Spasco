@@ -11,7 +11,7 @@ setuptools.setup(
     version=__version__,
     author="Niklas Tiede",
     author_email="niklastiede2@gmail.com",
-    description="command line tool for replacing spaces of file-/dir-names by underscores",
+    description="command line tool for replacing/removing whitespaces or other patterns of file- and directory names.",
     long_description=pathlib.Path("README.md").read_text(encoding="utf-8"),
     long_description_content_type="text/markdown",
     url=__src_url__,
