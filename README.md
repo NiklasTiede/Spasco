@@ -3,27 +3,23 @@
    <h3 align="center">File and Directory Renaming Command Line Tool</h3>
 <p>
 
-[comment]: <> (# https://shields.io/)
 
-[comment]: <> (![PyPI - Python Version]&#40;https://img.shields.io/pypi/pyversions/spasco&#41;)
-
-[comment]: <> ([![platform]&#40;https://img.shields.io/&#41;]&#40;&#41; # https://shields.io/category/platform-support)
-
-[comment]: <> ([![license]&#40;https://img.shields.io/conda/&#41;]&#40;&#41; # https://shields.io/category/license)
-
-[comment]: <> ([![Travis CI]&#40;https://img.shields.io/&#41;]&#40;https://travis-ci.com/github/numpy/numpy&#41; # https://shields.io/category/build)
-
-[comment]: <> ([![codecov]&#40;https://img.shields.io/&#41;]&#40;https://codecov.io/&#41; # https://shields.io/category/coverage)
-
-[comment]: <> ([![codacy]&#40;https://img.shields.io/&#41;]&#40;&#41; # https://shields.io/category/analysis)
-
-[comment]: <> (![total lines]&#40;https://img.shields.io/&#41; # https://shields.io/category/size)
-
-<p align="justify">
-  Spasco is a glorified replace function: it lets you remove or replace characters occurring 
-  in file or directory names. By default it replaces whitespaces by underscores but you can easily
-  customize the characters you want to remove/replace. 
+<p id="Badges" align="center">
+  <a alt="Platform" href="https://pypi.org/project/spasco/">
+    <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/spasco">
+  </a>
+  <a alt="GH actions" href="https://github.com/NiklasTiede/Spasco/actions">
+    <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/NiklasTiede/Spasco/Continuos%20Integration">
+  </a>
+  <a alt="GH Release" href="https://github.com/NiklasTiede/Spasco/releases">
+    <img src="https://img.shields.io/github/v/release/NiklasTiede/Spasco" />
+  </a>
+  <a alt="Codecov" href="https://app.codecov.io/gh/NiklasTiede/Spasco">
+    <img src="https://img.shields.io/codecov/c/github/NiklasTiede/Spasco" />
+  </a>
 </p>
+
+Spasco is a glorified replace function: it lets you remove or replace characters occurring in file or directory names. By default it replaces whitespaces by underscores but you can easily customize the characters you want to remove/replace.
 
 <h1 id="example" ><img src="docs/example.png" width="34px"#> Example</h1>
 
@@ -36,13 +32,16 @@ test dir
 test file
 
 ❯ spasco
-2 files/directories can be renamed:
-before             after
-'test dir'  --> 'test_dir'
-'test file' --> 'test_file'
+You can rename 2 files and/or directories.
+
+Before           After
+──────────────────────────
+'test file'  🡆  'test_file'
+'test dir'   🡆  'test_dir'
+──────────────────────────
 
 ❯ OK to proceed with renaming? [y/n] y
-All done! 1 files and 1 directories were renamed ✨ 🍰 ✨.
+All done! 1 files and 1 directories were renamed! ✨💄✨
 
 ❯ ls
 test_dir
@@ -55,26 +54,32 @@ test_file
 - [Installation](#Installation)
 - [Configuration](#Configuration)
 - [How to use Spasco](#how-to-use-spasco)
+  - [Example 1: Removing Characters](#example-1-removing-characters)
+  - [Example 2: Limit Renaming to Certain Files](#example-2-limit-renaming-to-certain-files)
+  - [Example 3: Set Search- or New-Value Permanently](#example-2-set-search-or-new-value-permanently)
+  - [Example 4: Turn logging on](#example-3-turn-logging-on)
 
 <h1 id="features" ><img src="docs/features.png" width="31px"#> Features</h1>
 
 Spasco's renaming operation can be modified. For example, the
-search-value (whitespaces) and the new-value (underscores) can be
+search-value (default: whitespaces) and the new-value (default: underscore) can be
 changed.
 
-- search-values other than white spaces and new-values other than
-  underscores can be chosen
-- files/dirs within directories can be renamed (recurse into dirs)
-- scope of the renaming action can be limited (patterns with wildcard
+- Search-values other than whitespaces and new-values other than
+  underscores can be selected temporarily or permanently
+- Files/directories within directories can be renamed (recurse into directories)
+- Scope of the renaming action can be limited (patterns with wildcard
   characters, filename expansion)
-- a log record of the renaming actions can be recorded
+- A log of the renaming actions can be recorded
 
 <h1 id="installation" ><img src="docs/installation.png" width="28px"#> Installation</h1>
 
-Spasco is currently developed on Python 3.7 and can be easily downloaded, built and installed via `pip`.
+Spasco can be downloaded from the Python packaging index or from this repository. It runs smoothly on Ubuntu and MacOS.
 
 ```
-pip install git+https://github.com/NiklasTiede/Spasco
+$ pip install spasco
+
+$ pip install git+https://github.com/NiklasTiede/Spasco
 ```
 
 <h1 id="configuration" ><img src="docs/configuration.png" width="34px"#> Configuration</h1>
@@ -90,10 +95,10 @@ new_value = _
 [LOG-SETTINGS]
 logging_turned_on = False
 logger_filename = spasco.log
-logger_location = /home/niklas
+logger_location = /home/user
 ```
 
-Configuration is done through the command line interface. logging can be turned on and off and you can pick a new search-/new-value persistently.
+Configuration is done through the command line interface. Logging can be turned on and off and you can customize the new search-/new-value permanently.
 
 ```console
 ❯ spasco config --help
@@ -106,57 +111,95 @@ optional arguments:
   -h, --help         Show this help message and exit.
 
 log settings:
-  -o [true/false]    Log record is turned on/off.
-  -f [filename]      Set up a new filename for the logger.
-  -l [pathname]      Set up a new file location for the logger.
+  -o [true/false]    Logging is turned on/off (default: off).
+  -f [filename]      Set a new filename for the logger.
+  -l [pathname]      Set a new file location for the logger.
 
-rename settings:
-  -s [search_value]  Set up a new search value.
-  -n [new_value]     Set up a new value which will replace the search-value.
+renaming settings:
+  -s [search_value]  Set a new 'search-value' permanently.
+  -n [new_value]     Set a new 'new-value' permanently.
 ```
 
 <h1 id="how-to-use-spasco" ><img src="docs/tutorial.png" width="27px"#> How to use Spasco</h1>
 
-[comment]: <> (https://github.com/XAMPPRocky/tokei)
-
-The built-in usage help gives you all the information you need.
+The built-in help flag `--help` shows which flags can be used.
 
 ```console
-❯ spasco --help
-usage: spasco [-s [search_value]] [-n [new_value]] [-p [pattern_only]] [-e [except_pattern]] [-d] [-f] [-r] [-v] [-h]
-              [files/directories [files/directories ...]] {config} ...
-
-A renaming tool for replacing whitespaces within file- or directory names by underscores.
-src: https://github.com/NiklasTiede/Spasco
-
-positional arguments:
-  files/directories    Select files/dirs to be renamed. Default: current directory is listed.
-
 optional arguments:
-  -s [search_value]    Searches for characters/patterns to be replaced other than whitespaces.
-  -n [new_value]       substitutes the search-value for custom characters/patterns other than underscores.
+  -t [file_or_dir]     Select a single file or directory for renaming.
+  -s [search_value]    Define custom search-value (default: ' ').
+  -n [new_value]       Define custom new-value (default: '_').
   -p [pattern_only]    Only files/dirs containing the pattern are renamed.
-  -e [except_pattern]  Only files/dirs not containing the pattern are renamed.
+  -e [except_pattern]  Only files/dirs not containing the pattern are
+                       renamed.
   -d, --dirs-only      Only directories are renamed.
   -f, --files-only     Only files are renamed.
   -r, --recursive      Recurse into directories.
+  -i, --immediately    Skip security question, renaming preview and execute
+                       immediately.
   -v, --version        Show version number and exit.
   -h, --help           Show this help message and exit.
 
-log and rename configuration:
-  config               Sub-command to interact with spasco's logging and rename settings.
-
-Make your files more computer-friendly :)
+log and renaming configuration:
+  config               Sub-command to interact with spasco's logging and
+                       rename settings.
 ```
 
-:exclamation: The How-to section will get more examples in the future
+## Example 1: Removing Characters
 
-:exclamation: Can be also downloaded from PyPI soon
+To remove characters of a kind you have to define an empty-string new-value. In the following example all dash characters will be removed:
 
-<!-- For converting all dash symbols just type:
+```
+❯ spasco -s '-' -n ''
+You can rename 2 files and/or directories.
 
-```bash
-spasco -s '-'
-``` -->
+Before          After
+────────────────────────
+'folder-1'  🡆  'folder1'
+'folder-2'  🡆  'folder2'
+────────────────────────
+```
 
-If you found this project useful, consider giving it a :star:
+## Example 2: Limit Renaming to Certain Files
+
+Sometimes nyou don't wanna rename every file. For that case you can include/exclude files containing a specific pattern. If you want to rename only files which contain a pattern use the `-p` flag. 
+
+```
+❯ spasco -p '*.py'
+```
+
+If you want to prevent renaming of a file use the `-e` flag. In the following we exclude all dotfiles from the renaming operation.
+
+```
+❯ spasco -e '.*'
+```
+
+## Example 2: Set Search- or New-Value Permanently
+
+You can change search/new-values permamnently by changing spascos configuration. For instance if you plan just to remove characters you can change spasco's default behavior permanently:
+
+```
+❯ spasco config -n ''
+spasco -s '.py'   #  removes all .py file endings
+
+❯ spasco config --show-settings
+value settings:
+  search_value: ' '
+  new_value: ''
+log settings:
+  logging_turned_on: False
+  logger_filename: spasco.log
+  logger_location: /home/niklas
+```
+
+
+## Example 3: Turn logging on
+
+Logging your renaming operations is a useful safety net. If you renamed a file accidentally and you realize later on that you broke something it's nice to know which files where renamed. Logging is turned off by default, but you can turn it on:
+
+```
+❯ spasco config -o true
+Logging is activated.
+```
+
+All renaming operations will be logged in your `HOME` directory within a `spasco.log` file.
