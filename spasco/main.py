@@ -12,9 +12,12 @@ import os
 import sys
 from argparse import _SubParsersAction
 from argparse import HelpFormatter
-from typing import List, Tuple
+from typing import List
+from typing import Tuple
 
-from spasco import __src_url__, __title__, __version__
+from spasco import __src_url__
+from spasco import __title__
+from spasco import __version__
 from spasco.term_color import fmt
 from spasco.term_color import Txt
 

@@ -162,7 +162,7 @@ Before          After
 
 ## Example 2: Limit Renaming to Certain Files
 
-Sometimes nyou don't wanna rename every file. For that case you can include/exclude files containing a specific pattern. If you want to rename only files which contain a pattern use the `-p` flag. 
+Sometimes nyou don't wanna rename every file. For that case you can include/exclude files containing a specific pattern. If you want to rename only files which contain a pattern use the `-p` flag.
 
 ```
 ❯ spasco -p '*.py'
