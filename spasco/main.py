@@ -48,6 +48,7 @@ def get_logger_path():
     logger_filename = config.get('LOG-SETTINGS', 'logger_filename')
     return f"{logger_location}/{logger_filename}"
 
+
 logger_path = get_logger_path()
 logging.basicConfig(
     filename=logger_path,
@@ -136,7 +137,7 @@ def main(argv):
     [files_dirs.remove(x) for x in files_dirs.copy() if args.except_pattern and fnmatch.fnmatch(os.path.split(x)[-1], args.except_pattern)]
 
     if not files_dirs:
-        
+
         print(f'None of the exception-pattern matching files/directories contain the search-value {SEARCH_VALUE!r}.',)
         return 1
 
@@ -167,20 +168,19 @@ def main(argv):
         if NEW_VALUE == "''" or NEW_VALUE == '""':
             NEW_VALUE = ''
 
-
     filecount, dircount, renamed_paths = path_renaming(
         path_lst=filtered_paths,
         search_value=SEARCH_VALUE,
         new_value=NEW_VALUE,
     )
-    
+
     if args.immediately:
         is_proceeding = 'y'
     else:
         longest_path = max([len(x) for x in filtered_paths])
 
         msg = f'You can rename {len(filtered_paths)} files and/or directories.'  # 🔨
-        colored_msg = fmt(msg)  # , Txt.greenblue 
+        colored_msg = fmt(msg)  # , Txt.greenblue
         print(colored_msg)
         print()
         before_heading = fmt('Before', Txt.pink, bolded=True)
@@ -201,16 +201,16 @@ def main(argv):
 
     if is_proceeding.lower() == 'y':
         filecount, dircount, new_pathnames = path_renaming(
-            path_lst=filtered_paths, 
-            search_value=SEARCH_VALUE, 
-            new_value=NEW_VALUE, 
+            path_lst=filtered_paths,
+            search_value=SEARCH_VALUE,
+            new_value=NEW_VALUE,
             renaming=True,
         )
         success_msg = fmt(f'All done! {filecount} files and {dircount} directories were renamed! ✨💄✨', Txt.greenblue)
         print(success_msg)
         return 0
     else:
-        print(fmt("Command aborted.", textcolor=Txt.pink ))   
+        print(fmt("Command aborted.", textcolor=Txt.pink))
         return 1
 
 
@@ -221,6 +221,7 @@ settings_msg = f"""{fmt("value settings:", Txt.greenblue)}
   logging_turned_on: {config.getboolean('LOG-SETTINGS', 'logging_turned_on')}
   logger_filename: {config.get('LOG-SETTINGS', 'logger_filename')}
   logger_location: {config.get('LOG-SETTINGS', 'logger_location')}"""
+
 
 def execute_config(config_subparser, argv):
     """ Boolean logic of config subparser triggering. """
@@ -285,7 +286,7 @@ def execute_config(config_subparser, argv):
         config['VALUE-SETTINGS']['new_value'] = "''"
         with open(settings_file, 'w') as fp:
             config.write(fp)
-        print(f"The new 'new-value' is {config.get('VALUE-SETTINGS', 'new_value')}.")        
+        print(f"The new 'new-value' is {config.get('VALUE-SETTINGS', 'new_value')}.")
         return 0
 
     if args.set_new_value:

@@ -201,7 +201,7 @@ expected_files_dirs_with_dirsonly_flag = [
     'folder_1/file-12.js',
     'folder_1/folder 12',
     'folder_1/folder-11'
-    ]
+]
 
 
 def test_renaming_with_dirsonly_flag(capsys):
@@ -243,7 +243,7 @@ expected_files_dirs_with_singletarget_flag = [
     'folder-2/file_21.py',   # renamed
     'folder-2/folder21',
     'folder-2/folder22'
-    ]
+]
 
 
 def test_renaming_with_singletarget_flag(capsys):
@@ -282,10 +282,10 @@ expected_files_dirs_with_patternonly_flag = [
     'folder 1/folder-11',
     'folder-2',
     'folder-2/file-22.js',
-    'folder-2/file_21.py',  # renamed 
+    'folder-2/file_21.py',  # renamed
     'folder-2/folder21',
     'folder-2/folder22'
-    ]
+]
 
 
 def test_renaming_with_patternonly_flag(capsys):
@@ -322,12 +322,13 @@ expected_files_dirs_with_exceptpattern_flag = [
     'folder-2/file-22.js',
     'folder-2/folder21',
     'folder-2/folder22',
-    'folder_1',            # renamed 
+    'folder_1',            # renamed
     'folder_1/file 11.py',
     'folder_1/file-12.js',
     'folder_1/folder-11',
     'folder_1/folder_12'   # renamed
-    ] 
+]
+
 
 def test_renaming_with_exceptpattern_flag(capsys):
     """ Tests if the exceptpattern flag is functional.
@@ -360,15 +361,15 @@ expected_files_dirs_with_searchvalue_flag = [
     'file_2.js',           # renamed
     'folder 1',
     'folder 1/file 11.py',
-    'folder 1/file_12.js', # renamed
+    'folder 1/file_12.js',  # renamed
     'folder 1/folder 12',
     'folder 1/folder_11',  # renamed
     'folder_2',            # renamed
     'folder_2/file 21.py',
-    'folder_2/file_22.js', # renamed
+    'folder_2/file_22.js',  # renamed
     'folder_2/folder21',
     'folder_2/folder22'
-    ]
+]
 
 
 def test_renaming_with_searchvalue_flag(capsys):
@@ -410,7 +411,7 @@ expected_files_dirs_with_newvalue_flag = [
     'folder1/file11.py',
     'folder1/folder-11',
     'folder1/folder12'
-    ]
+]
 
 
 def test_renaming_with_newvalue_flag(capsys):
