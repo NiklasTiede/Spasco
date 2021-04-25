@@ -56,8 +56,9 @@ test_file
 - [How to use Spasco](#how-to-use-spasco)
   - [Example 1: Removing Characters](#example-1-removing-characters)
   - [Example 2: Limit Renaming to Certain Files](#example-2-limit-renaming-to-certain-files)
-  - [Example 3: Set Search- or New-Value Permanently](#example-2-set-search-or-new-value-permanently)
-  - [Example 4: Turn logging on](#example-3-turn-logging-on)
+  - [Example 3: Set Search/New Values Permanently](#example-3-set-searchnew-values-permanently)
+  - [Example 4: Activate Logging](#example-4-activate-logging)
+
 
 <h1 id="features" ><img src="docs/features.png" width="31px"#> Features</h1>
 
@@ -149,7 +150,7 @@ log and renaming configuration:
 
 To remove characters of a kind you have to define an empty-string new-value. In the following example all dash characters will be removed:
 
-```
+```console
 ❯ spasco -s '-' -n ''
 You can rename 2 files and/or directories.
 
@@ -164,21 +165,21 @@ Before          After
 
 Sometimes nyou don't wanna rename every file. For that case you can include/exclude files containing a specific pattern. If you want to rename only files which contain a pattern use the `-p` flag.
 
-```
+```console
 ❯ spasco -p '*.py'
 ```
 
 If you want to prevent renaming of a file use the `-e` flag. In the following we exclude all dotfiles from the renaming operation.
 
-```
+```console
 ❯ spasco -e '.*'
 ```
 
-## Example 2: Set Search- or New-Value Permanently
+## Example 3: Set Search/New Values Permanently
 
 You can change search/new-values permamnently by changing spascos configuration. For instance if you plan just to remove characters you can change spasco's default behavior permanently:
 
-```
+```console
 ❯ spasco config -n ''
 spasco -s '.py'   #  removes all .py file endings
 
@@ -193,11 +194,11 @@ log settings:
 ```
 
 
-## Example 3: Turn logging on
+## Example 4: Activate Logging
 
 Logging your renaming operations is a useful safety net. If you renamed a file accidentally and you realize later on that you broke something it's nice to know which files where renamed. Logging is turned off by default, but you can turn it on:
 
-```
+```console
 ❯ spasco config -o true
 Logging is activated.
 ```

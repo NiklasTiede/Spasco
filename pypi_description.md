@@ -28,17 +28,6 @@ test_dir
 test_file
 ```
 
-# Contents
-
-- [Features](#Features)
-- [Installation](#Installation)
-- [Configuration](#Configuration)
-- [How to use Spasco](#how-to-use-spasco)
-  - [Example 1: Removing Characters](#example-1-removing-characters)
-  - [Example 2: Limit Renaming to Certain Files](#example-2-limit-renaming-to-certain-files)
-  - [Example 3: Set Search- or New-Value Permanently](#example-2-set-search-or-new-value-permanently)
-  - [Example 4: Turn logging on](#example-3-turn-logging-on)
-
 # Features
 
 Spasco's renaming operation can be modified. For example, the
@@ -52,15 +41,6 @@ changed.
   characters, filename expansion)
 - A log of the renaming actions can be recorded
 
-# Installation
-
-Spasco can be downloaded from the Python packaging index or from this repository. It runs smoothly on Ubuntu and MacOS.
-
-```
-$ pip install spasco
-
-$ pip install git+https://github.com/NiklasTiede/Spasco
-```
 
 # Configuration
 
@@ -141,7 +121,7 @@ Before          After
 ────────────────────────
 ```
 
-## Example 2: Limit renaming to certain files
+## Example 2: Limit Renaming to Certain Files
 
 Sometimes nyou don't wanna rename every file. For that case you can include/exclude files containing a specific pattern. If you want to rename only files which contain a pattern use the `-p` flag.
 
@@ -155,7 +135,7 @@ If you want to prevent renaming of a file use the `-e` flag. In the following we
 ❯ spasco -e '.*'
 ```
 
-## Example 3: Set Search- or New-Value Permanently
+## Example 3: Set Search/New Values Permanently
 
 You can change search/new-values permamnently by changing spascos configuration. For instance if you plan just to remove characters you can change spasco's default behavior permanently:
 
@@ -174,7 +154,7 @@ log settings:
 ```
 
 
-## Example 4: Turn logging on
+## Example 4: Activate Logging
 
 Logging your renaming operations is a useful safety net. If you renamed a file accidentally and you realize later on that you broke something it's nice to know which files where renamed. Logging is turned off by default, but you can turn it on:
 
