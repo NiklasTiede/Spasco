@@ -6,5 +6,5 @@ command line tool for replacing/removing whitespaces or other patterns of file- 
 # All rights reserved. Distributed under the MIT License.
 
 __title__ = 'spasco'
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __src_url__ = 'https://github.com/NiklasTiede/Spasco'

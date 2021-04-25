@@ -1,7 +1,0 @@
-# pytest, flake8, autopep8, mypy
-
-mccabe==0.6.1
-mypy-extensions==0.4.3
-pylint==2.6.0
-pytest==6.2.1
-typing-extensions==3.7.4.3
