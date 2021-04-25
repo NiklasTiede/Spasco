@@ -395,7 +395,7 @@ def test_renaming_with_searchvalue_flag(capsys):
 
 
 ###################################################################
-# Test 7: newvalue (-n) flag
+# Test 8: newvalue (-n) flag
 
 expected_files_dirs_with_newvalue_flag = [
     'file-2.js',
@@ -413,7 +413,7 @@ expected_files_dirs_with_newvalue_flag = [
     ]
 
 
-def test_renaming_with_searchvalue_flag(capsys):
+def test_renaming_with_newvalue_flag(capsys):
     """ Tests if the searchvalue flag is functional.
     """
     # generate folder/files for renaming test
