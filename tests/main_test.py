@@ -4,9 +4,6 @@ import glob
 import os
 import pathlib
 import shutil
-import time
-from pprint import pprint
-from typing import List
 
 from spasco.main import main
 

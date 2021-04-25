@@ -63,7 +63,7 @@ def show_all_colors(your_string: str = 'colorized font') -> str:
     all_colors = ''
     for color in rainbow:
         textcolor = eval(f'Txt.{color}')
-        colorname = ' '*(9-len(color)) + color
+        colorname = ' ' * (9 - len(color)) + color
         colorname = fmt(text=colorname, textcolor=textcolor)
         normal_color = fmt(text=your_string, textcolor=textcolor)
         bolded_color = fmt(text=your_string, textcolor=textcolor, bolded=True)
@@ -80,7 +80,7 @@ def show_all_colors(your_string: str = 'colorized font') -> str:
 # print(fmt(some_text, textcolor=Txt.green, bolded=True))
 
 
-def main():
+def main() -> None:
     print(show_all_colors())
 
 

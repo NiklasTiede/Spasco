@@ -11,9 +11,7 @@ import logging
 import os
 import sys
 from argparse import _SubParsersAction
-from argparse import ArgumentParser
 from argparse import HelpFormatter
-from pprint import pprint
 from typing import List, Tuple
 
 from spasco import __src_url__, __title__, __version__
@@ -43,7 +41,7 @@ if not config.read(settings_file):
         config.write(f)
 
 
-def get_logger_path():
+def get_logger_path() -> str:
     logger_location = config.get('LOG-SETTINGS', 'logger_location')
     logger_filename = config.get('LOG-SETTINGS', 'logger_filename')
     return f"{logger_location}/{logger_filename}"
@@ -61,7 +59,7 @@ if (sys.platform != 'linux' and sys.platform != 'darwin'):
     print(f"{__title__!r} is currently not optimized for platforms other than OS X / linux")
 
 
-def main(argv):
+def main(argv: List[str]) -> int:
     """ Main program.
 
     :argument
@@ -119,7 +117,10 @@ def main(argv):
         return 1
 
     # ------ search-value filter ------
-    [files_dirs.remove(x) for x in all_selected_files_dirs if not SEARCH_VALUE in x.split('/')[-1]]
+    # [files_dirs.remove(x) for x in all_selected_files_dirs if SEARCH_VALUE not in x.split('/')[-1]]
+    for x in all_selected_files_dirs:
+        if SEARCH_VALUE not in x.split('/')[-1]:
+            files_dirs.remove(x)
 
     if not files_dirs:
         searchval_msg = f"None of the {len(all_selected_files_dirs)} present files/directories contain the search value '{SEARCH_VALUE}'!"
@@ -127,30 +128,43 @@ def main(argv):
         return 1
 
     # ------ pattern-only filter ------
-    [files_dirs.remove(x) for x in files_dirs.copy() if args.pattern_only and not fnmatch.fnmatch(os.path.split(x)[1], args.pattern_only)]
+    # [files_dirs.remove(x) for x in files_dirs.copy() if args.pattern_only and not fnmatch.fnmatch(os.path.split(x)[1], args.pattern_only)]
+    for x in files_dirs.copy():
+        if args.pattern_only and not fnmatch.fnmatch(os.path.split(x)[1], args.pattern_only):
+            files_dirs.remove(x)
 
     if not files_dirs:
         print(f'None of the {len(all_selected_files_dirs)} present files/directories contain the pattern {args.pattern_only!r}!')
         return 1
 
     # ------ except-pattern filter -----
-    [files_dirs.remove(x) for x in files_dirs.copy() if args.except_pattern and fnmatch.fnmatch(os.path.split(x)[-1], args.except_pattern)]
+    # [files_dirs.remove(x) for x in files_dirs.copy() if args.except_pattern and fnmatch.fnmatch(os.path.split(x)[-1], args.except_pattern)]
+    for x in files_dirs.copy():
+        if args.except_pattern and fnmatch.fnmatch(os.path.split(x)[-1], args.except_pattern):
+            files_dirs.remove(x)
 
     if not files_dirs:
-
         print(f'None of the exception-pattern matching files/directories contain the search-value {SEARCH_VALUE!r}.',)
         return 1
 
     # ------ dirs-only filter -----
-    [files_dirs.remove(x) for x in files_dirs.copy() if args.dirs_only and not os.path.isdir(x)]
+    # [files_dirs.remove(x) for x in files_dirs.copy() if args.dirs_only and not os.path.isdir(x)]
+    for x in files_dirs.copy():
+        if args.dirs_only and not os.path.isdir(x):
+            files_dirs.remove(x)
+
     if not files_dirs:
-        print(f'No directory present for renaming.')
+        print('No directory present for renaming.')
         return 1
 
     # ------ files-only filter -----
-    [files_dirs.remove(x) for x in files_dirs.copy() if args.files_only and not os.path.isfile(x)]
+    # [files_dirs.remove(x) for x in files_dirs.copy() if args.files_only and not os.path.isfile(x)]
+    for x in files_dirs.copy():
+        if args.files_only and not os.path.isfile(x):
+            files_dirs.remove(x)
+
     if not files_dirs:
-        print(f'No file present for renaming.')
+        print('No file present for renaming.')
         return 1
 
     filtered_paths = files_dirs
@@ -163,7 +177,7 @@ def main(argv):
         NEW_VALUE = ''
     if args.new_value:
         NEW_VALUE = args.new_value
-    if args.new_value == None:
+    if args.new_value is None:
         NEW_VALUE = config.get('VALUE-SETTINGS', 'new_value')
         if NEW_VALUE == "''" or NEW_VALUE == '""':
             NEW_VALUE = ''
@@ -177,8 +191,6 @@ def main(argv):
     if args.immediately:
         is_proceeding = 'y'
     else:
-        longest_path = max([len(x) for x in filtered_paths])
-
         msg = f'You can rename {len(filtered_paths)} files and/or directories.'  # 🔨
         colored_msg = fmt(msg)  # , Txt.greenblue
         print(colored_msg)
@@ -196,7 +208,7 @@ def main(argv):
         print()
 
         q = fmt(' [y/n] ', Txt.pink)
-        proceed_msg = fmt(f'OK to proceed with renaming?')  # , Txt.greenblue
+        proceed_msg = fmt('OK to proceed with renaming?')  # , Txt.greenblue
         is_proceeding = input(proceed_msg + q)
 
     if is_proceeding.lower() == 'y':
@@ -223,7 +235,7 @@ settings_msg = f"""{fmt("value settings:", Txt.greenblue)}
   logger_location: {config.get('LOG-SETTINGS', 'logger_location')}"""
 
 
-def execute_config(config_subparser, argv):
+def execute_config(config_subparser: argparse.ArgumentParser, argv: List[str]) -> int:
     """ Boolean logic of config subparser triggering. """
 
     args = config_subparser.parse_args(argv[1:])
@@ -238,7 +250,7 @@ def execute_config(config_subparser, argv):
             config.write(fp)
         log_state = config.getboolean('LOG-SETTINGS', 'logging_turned_on')
         if log_state:
-            print(f'Logging is activated.')
+            print('Logging is activated.')
         else:
             print('Logging is deactivated.')
         return 0
@@ -302,7 +314,7 @@ def execute_config(config_subparser, argv):
 
 def path_renaming(path_lst: List[str], search_value: str, new_value: str, renaming: bool = False) -> Tuple[int, int, List[str]]:
     """ List of filtered files and directories are renamed and their names
-    returned. Furthermore, the number fo directories/files which were renamed 
+    returned. Furthermore, the number fo directories/files which were renamed
     are also returned.
     :returns
       Tuples containing the number of directories, files and the names of them after renaming
@@ -326,7 +338,7 @@ def path_renaming(path_lst: List[str], search_value: str, new_value: str, renami
 
 def recurse_dirs_and_files() -> List[str]:
     """ All files/directories within the current working directory are mapped
-    into a list. 
+    into a list.
     :returns
       List of all file/directory paths, recursively and sorted
     """
@@ -345,32 +357,12 @@ def recurse_dirs_and_files() -> List[str]:
     return all_files_dirs
 
 
-# hack for removing the metavar below the subparsers title
+# hack for removing the metavar below the subparsers (config) title
 class NoSubparsersMetavarFormatter(HelpFormatter):
-    def _format_action(self, action):
-        result = super()._format_action(action)
+    def _format_action_invocation(self, action):  # type: ignore
         if isinstance(action, _SubParsersAction):
-            # fix indentation on first line
-            return "%*s%s" % (self._current_indent, "", result.lstrip())
-        return result
-
-    def _format_action_invocation(self, action):
-        if isinstance(action, _SubParsersAction):
-            # remove metavar and help line
             return ""
         return super()._format_action_invocation(action)
-
-    def _iter_indented_subactions(self, action):
-        if isinstance(action, _SubParsersAction):
-            try:
-                get_subactions = action._get_subactions
-            except AttributeError:
-                pass
-            else:
-                # remove indentation
-                yield from get_subactions()
-        else:
-            yield from super()._iter_indented_subactions(action)
 
 
 class MyOwnFormatter(NoSubparsersMetavarFormatter, argparse.RawDescriptionHelpFormatter):
@@ -378,7 +370,7 @@ class MyOwnFormatter(NoSubparsersMetavarFormatter, argparse.RawDescriptionHelpFo
     pass
 
 
-def __build_parser():
+def __build_parser() -> Tuple[argparse.ArgumentParser, argparse.ArgumentParser]:
     """Constructs the main_parser for the command line arguments.
 
     :returns
@@ -479,7 +471,7 @@ def __build_parser():
     return main_parser, config_subparser
 
 
-def add_config_subparser(sub_parsers):
+def add_config_subparser(sub_parsers: argparse._SubParsersAction) -> argparse.ArgumentParser:
     """
     """
     config_subparser = sub_parsers.add_parser(
@@ -524,7 +516,7 @@ def add_config_subparser(sub_parsers):
         nargs='?',
         metavar='pathname',
         dest='log_location',
-        help=f'Set a new file location for the logger.',
+        help='Set a new file location for the logger.',
     )
 
     config_subparser_renaming = config_subparser.add_argument_group(
@@ -535,7 +527,7 @@ def add_config_subparser(sub_parsers):
         nargs='?',
         metavar='search_value',
         dest='set_search_value',
-        help=f"Set a new 'search-value' permanently.",
+        help="Set a new 'search-value' permanently.",
     )
     config_subparser_renaming.add_argument(
         '-n',
@@ -549,11 +541,10 @@ def add_config_subparser(sub_parsers):
     return config_subparser
 
 
-def add_parser_help(parser):
-    """Custom help-argument to have consistent style. 
+def add_parser_help(parser: argparse.ArgumentParser) -> None:
+    """Custom help-argument to have consistent style.
     add_help=False to enable this.
     """
-
     parser.add_argument(
         '-h',
         '--help',
@@ -562,7 +553,7 @@ def add_parser_help(parser):
     )
 
 
-def run_main():
+def run_main() -> None:
     try:
         sys.exit(main(sys.argv))
     except Exception as e:
