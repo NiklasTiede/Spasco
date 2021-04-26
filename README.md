@@ -26,7 +26,12 @@ Spasco is a glorified replace function: it lets you remove or replace characters
 If you have files or directories containing whitespaces in your current working
 directory you can easily replace them by underscores using `spasco`:
 
-```console
+
+<p align="center">
+  <img src="docs/example.gif">
+</p>
+
+<!-- ```console
 ❯ ls
 test dir
 test file
@@ -46,7 +51,7 @@ All done! 1 files and 1 directories were renamed! ✨💄✨
 ❯ ls
 test_dir
 test_file
-```
+``` -->
 
 <h1 id="contents" ><img src="docs/contents.png" width="30px"#> Contents</h1>
 
