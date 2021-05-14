@@ -1,6 +1,6 @@
 """terminal color
 ==============
-module for coloring the terminal output
+Module for coloring the terminal output.
 """
 # Copyright (c) 2020, Niklas Tiede.
 # All rights reserved. Distributed under the MIT License.
@@ -21,7 +21,7 @@ class Txt:
 
 
 def fmt(text: str, textcolor: str = '', bolded: bool = False, underlined: bool = False) -> str:
-    """ the terminal output can be colorized, bolded or underlined.
+    """ The terminal output can be colorized, bolded or underlined.
     Colors are stored within the Txt-class.
     :argument
       text: string which should be formatted
@@ -45,7 +45,7 @@ def fmt(text: str, textcolor: str = '', bolded: bool = False, underlined: bool =
 
 
 def show_all_colors(your_string: str = 'colorized font') -> str:
-    """ print out all forms of formatting. """
+    """ Print out all forms of formatting. """
 
     rainbow = [
         'pink',

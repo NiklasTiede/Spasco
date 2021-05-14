@@ -1,6 +1,6 @@
 """spasco - spaces to underscores
 ==============================
-command line tool for replacing/removing whitespaces or other patterns of file- and directory names.
+Command line tool for replacing/removing whitespaces or other patterns of file- and directory names.
 """
 # Copyright (c) 2021, Niklas Tiede.
 # All rights reserved. Distributed under the MIT License.
@@ -369,12 +369,12 @@ class NoSubparsersMetavarFormatter(HelpFormatter):
 
 
 class MyOwnFormatter(NoSubparsersMetavarFormatter, argparse.RawDescriptionHelpFormatter):
-    """ removes metavar of config subparser and adds RawDescription """
+    """ Removes metavar of config subparser and adds RawDescription """
     pass
 
 
 def __build_parser() -> Tuple[argparse.ArgumentParser, argparse.ArgumentParser]:
-    """Constructs the main_parser for the command line arguments.
+    """ Constructs the main_parser for the command line arguments.
 
     :returns
       An ArgumentParser instance for the CLI.
@@ -475,7 +475,7 @@ def __build_parser() -> Tuple[argparse.ArgumentParser, argparse.ArgumentParser]:
 
 
 def add_config_subparser(sub_parsers: argparse._SubParsersAction) -> argparse.ArgumentParser:
-    """
+    """ Parser for configuring spasco.
     """
     config_subparser = sub_parsers.add_parser(
         name='config',
@@ -545,7 +545,7 @@ def add_config_subparser(sub_parsers: argparse._SubParsersAction) -> argparse.Ar
 
 
 def add_parser_help(parser: argparse.ArgumentParser) -> None:
-    """Custom help-argument to have consistent style.
+    """ Custom help-argument to have consistent style.
     add_help=False to enable this.
     """
     parser.add_argument(
