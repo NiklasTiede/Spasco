@@ -8,9 +8,6 @@
   <a alt="Platform" href="https://pypi.org/project/spasco/">
     <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/spasco">
   </a>
-  <a alt="GH actions" href="https://github.com/NiklasTiede/Spasco/actions">
-    <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/NiklasTiede/Spasco/Continuos%20Integration">
-  </a>
   <a alt="GH Release" href="https://github.com/NiklasTiede/Spasco/releases">
     <img src="https://img.shields.io/github/v/release/NiklasTiede/Spasco" />
   </a>
